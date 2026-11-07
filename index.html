@@ -4,326 +4,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b12">
 <title>MRBEAST HUB</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f0f;color:white;font-family:Arial,sans-serif}
+header{
+  height:65px;background:#111;display:flex;align-items:center;
+  padding:0 22px;gap:22px;position:sticky;top:0;z-index:10;
+  border-bottom:1px solid #252525
 }
-
-body {
-  background: #080b12;
-  color: #fff;
-  font-family: Arial, sans-serif;
+.logo{font-size:22px;font-weight:900;white-space:nowrap}
+.logo span{color:#3185ff}
+.menu{font-size:25px;cursor:pointer}
+.search{display:flex;max-width:650px;flex:1;margin:auto}
+.search input{
+  width:100%;background:#202020;border:1px solid #383838;
+  padding:12px 16px;color:white;border-radius:25px 0 0 25px;
+  outline:none;font-size:15px
 }
-
-header {
-  height: 75px;
-  padding: 0 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  background: #0d121c;
-  border-bottom: 1px solid #202a39;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.search button{
+  background:#303030;border:1px solid #383838;color:white;
+  padding:0 22px;border-radius:0 25px 25px 0;cursor:pointer
 }
-
-.logo {
-  font-size: 22px;
-  font-weight: 900;
-  white-space: nowrap;
+.profile{background:#286cff;padding:10px 14px;border-radius:50%;font-weight:bold}
+.layout{display:flex}
+.sidebar{
+  width:220px;padding:20px 12px;position:fixed;top:65px;bottom:0;
+  background:#111;overflow:auto;transition:.2s
 }
-
-.logo span {
-  color: #168cff;
+.sidebar.hidden{transform:translateX(-100%)}
+.side-item{
+  padding:14px;border-radius:10px;cursor:pointer;color:#ddd;
+  margin-bottom:5px
 }
-
-.search {
-  display: flex;
-  width: min(550px, 55%);
+.side-item:hover,.side-item.active{background:#292929;color:white}
+main{margin-left:220px;padding:24px;width:calc(100% - 220px);transition:.2s}
+main.expanded{margin-left:0;width:100%}
+.categories{display:flex;gap:10px;overflow:auto;padding-bottom:20px}
+.category{
+  border:0;background:#292929;color:white;padding:10px 17px;
+  border-radius:9px;white-space:nowrap;cursor:pointer
 }
-
-.search input {
-  flex: 1;
-  min-width: 0;
-  padding: 13px 16px;
-  border: 1px solid #283448;
-  border-radius: 9px 0 0 9px;
-  background: #171f2c;
-  color: white;
-  outline: none;
+.category.active{background:white;color:black}
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));
+  gap:25px 17px
 }
-
-.search input:focus {
-  border-color: #168cff;
+.video{cursor:pointer;min-width:0}
+.thumb{
+  width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:13px;
+  background:#222;transition:.2s
 }
-
-.search button {
-  background: #168cff;
-  color: white;
-  border: 0;
-  padding: 0 20px;
-  border-radius: 0 9px 9px 0;
-  cursor: pointer;
+.video:hover .thumb{border-radius:7px;transform:scale(1.015)}
+.info{display:flex;gap:11px;padding-top:11px}
+.avatar{
+  width:37px;height:37px;min-width:37px;border-radius:50%;
+  background:#286cff;display:grid;place-items:center;font-weight:bold
 }
-
-main {
-  max-width: 1450px;
-  margin: auto;
-  padding: 30px 5%;
+.video-title{font-size:15px;font-weight:bold;line-height:1.4}
+.channel,.views{font-size:13px;color:#aaa;margin-top:5px}
+#playerScreen{
+  display:none;position:fixed;inset:0;background:#0f0f0f;
+  z-index:20;overflow:auto;padding:20px
 }
-
-.welcome {
-  margin-bottom: 30px;
+.player-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.close{
+  background:#292929;border:0;color:white;padding:11px 18px;
+  border-radius:8px;cursor:pointer;font-size:15px
 }
-
-.welcome h1 {
-  font-size: clamp(28px, 5vw, 48px);
-  font-weight: 900;
-  letter-spacing: -2px;
+.player-container{max-width:1050px;margin:auto}
+iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
+.player-title{font-size:22px;margin-top:18px}
+.player-channel{color:#aaa;margin-top:10px}
+.empty{color:#aaa;text-align:center;padding:60px 10px;grid-column:1/-1}
+footer{text-align:center;color:#666;padding:40px;font-size:12px}
+@media(max-width:700px){
+ header{padding:0 12px;gap:10px}
+ .logo{font-size:17px}
+ .sidebar{width:190px}
+ main{margin-left:0;width:100%;padding:15px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 10px}
+ .video-title{font-size:13px}
+ .avatar{width:30px;height:30px;min-width:30px}
+ .info{gap:7px}
+ .search input{min-width:0}
+ .search button{padding:0 13px}
+ .profile{display:none}
 }
-
-.welcome h1 span {
-  color: #168cff;
-}
-
-.welcome p {
-  color: #8995a8;
-  margin-top: 12px;
-  line-height: 1.6;
-}
-
-.categories {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
-}
-
-.category {
-  white-space: nowrap;
-  background: #151e2b;
-  border: 1px solid #273448;
-  color: #b9c5d5;
-  padding: 11px 17px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.category:hover,
-.category.active {
-  background: #168cff;
-  color: white;
-  border-color: #168cff;
-}
-
-.section-title {
-  font-size: 20px;
-  margin: 25px 0 18px;
-}
-
-.player-container {
-  background: #111824;
-  border: 1px solid #263246;
-  border-radius: 15px;
-  padding: 14px;
-  margin-bottom: 35px;
-}
-
-.player {
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: #03060b;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.player iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.placeholder {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 20px;
-  background: radial-gradient(circle, #112b4c, #03060b 65%);
-}
-
-.placeholder .play {
-  width: 70px;
-  height: 70px;
-  display: grid;
-  place-items: center;
-  background: #168cff;
-  border-radius: 50%;
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
-.placeholder p {
-  color: #8995a8;
-  margin-top: 10px;
-}
-
-.player-info {
-  padding: 17px 5px 5px;
-}
-
-.player-info p {
-  color: #8995a8;
-  margin-top: 7px;
-  font-size: 12px;
-}
-
-.feed-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  gap: 12px;
-}
-
-.feed-heading button {
-  background: #172131;
-  color: white;
-  border: 1px solid #29364a;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: #111824;
-  border: 1px solid #263246;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: .25s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  border-color: #168cff;
-}
-
-.thumbnail {
-  aspect-ratio: 16/9;
-  background: #172131;
-  position: relative;
-  overflow: hidden;
-}
-
-.thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.thumbnail .play-overlay {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 30px;
-  background: rgba(0,0,0,.15);
-  opacity: 0;
-  transition: .2s;
-}
-
-.card:hover .play-overlay {
-  opacity: 1;
-}
-
-.card-info {
-  padding: 14px;
-}
-
-.card-info h3 {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.card-info p {
-  color: #8995a8;
-  font-size: 11px;
-  margin-top: 8px;
-}
-
-.external {
-  margin-top: 20px;
-  display: block;
-  text-align: center;
-  padding: 17px;
-  border-radius: 10px;
-  background: #111824;
-  color: #168cff;
-  text-decoration: none;
-  border: 1px solid #263246;
-}
-
-footer {
-  margin-top: 60px;
-  padding: 30px;
-  border-top: 1px solid #202a39;
-  color: #8995a8;
-  text-align: center;
-  font-size: 11px;
-}
-
-@media(max-width:900px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0,1fr));
-  }
-}
-
-@media(max-width:600px) {
-  header {
-    height: auto;
-    padding: 15px 4%;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    font-size: 19px;
-  }
-
-  .search {
-    width: 100%;
-    order: 3;
-  }
-
-  main {
-    padding: 22px 4%;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .welcome h1 {
-    font-size: 29px;
-  }
+@media(max-width:380px){
+ .grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -331,270 +101,170 @@ footer {
 <body>
 
 <header>
-
-  <div class="logo">
-    MRBEAST <span>HUB</span>
-  </div>
-
+  <div class="menu" onclick="toggleMenu()">☰</div>
+  <div class="logo">MRBEAST <span>HUB</span></div>
   <div class="search">
-    <input
-      id="searchInput"
-      type="search"
-      placeholder="Pesquisar vídeos ou canais..."
-    >
-    <button onclick="searchYouTube()">⌕</button>
+    <input id="searchInput" placeholder="Pesquisar vídeos ou criadores..."
+      oninput="renderVideos()">
+    <button onclick="renderVideos()">⌕</button>
   </div>
-
+  <div class="profile">M</div>
 </header>
 
-<main>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-item active" onclick="setCategory('Todos',this)">⌂ &nbsp; Início</div>
+    <div class="side-item" onclick="setCategory('Entretenimento',this)">▶ &nbsp; Entretenimento</div>
+    <div class="side-item" onclick="setCategory('Games',this)">🎮 &nbsp; Games</div>
+    <div class="side-item" onclick="setCategory('Desafios',this)">🔥 &nbsp; Desafios</div>
+    <div class="side-item" onclick="setCategory('Esportes',this)">⚽ &nbsp; Esportes</div>
+    <div class="side-item" onclick="setCategory('Tecnologia',this)">💻 &nbsp; Tecnologia</div>
+  </aside>
 
-  <section class="welcome">
-    <h1>EXPLORE O <span>UNIVERSO</span></h1>
-    <p>
-      Encontre seus criadores favoritos, descubra vídeos
-      e assista aos melhores conteúdos do YouTube.
-    </p>
-  </section>
-
-  <div class="categories">
-
-    <button class="category active"
-      onclick="selectCategory('MrBeast',this)">
-      🔥 MrBeast
-    </button>
-
-    <button class="category"
-      onclick="selectCategory('Desafios',this)">
-      🏆 Desafios
-    </button>
-
-    <button class="category"
-      onclick="selectCategory('Minecraft',this)">
-      🎮 Minecraft
-    </button>
-
-    <button class="category"
-      onclick="selectCategory('Experimentos',this)">
-      🧪 Experimentos
-    </button>
-
-    <button class="category"
-      onclick="selectCategory('Sobrevivência',this)">
-      🏕️ Sobrevivência
-    </button>
-
-    <button class="category"
-      onclick="selectCategory('Entretenimento',this)">
-      🎬 Entretenimento
-    </button>
-
-  </div>
-
-  <h2 class="section-title">▶ Assistindo agora</h2>
-
-  <section class="player-container">
-
-    <div class="player" id="player">
-
-      <div class="placeholder">
-        <div class="play">▶</div>
-        <h2>ESCOLHA SEU PRÓXIMO VÍDEO</h2>
-        <p>Pesquise ou escolha um vídeo abaixo.</p>
-      </div>
-
+  <main id="main">
+    <div class="categories">
+      <button class="category active" onclick="setCategory('Todos',this)">Todos</button>
+      <button class="category" onclick="setCategory('Entretenimento',this)">Entretenimento</button>
+      <button class="category" onclick="setCategory('Games',this)">Games</button>
+      <button class="category" onclick="setCategory('Desafios',this)">Desafios</button>
+      <button class="category" onclick="setCategory('Esportes',this)">Esportes</button>
+      <button class="category" onclick="setCategory('Tecnologia',this)">Tecnologia</button>
     </div>
 
-    <div class="player-info">
-      <h3 id="playerTitle">Bem-vindo ao MRBEAST HUB</h3>
-      <p>Player oficial do YouTube</p>
-    </div>
+    <div class="grid" id="videoGrid"></div>
+    <footer>MRBEAST HUB • Sua plataforma de vídeos</footer>
+  </main>
+</div>
 
-  </section>
-
-  <div class="feed-heading">
-    <h2 id="feedTitle">🔥 Vídeos do MrBeast</h2>
-    <button onclick="openYouTubeSearch('MrBeast')">
-      Ver todos ↗
-    </button>
+<div id="playerScreen">
+  <div class="player-top">
+    <div class="logo">MRBEAST <span>HUB</span></div>
+    <button class="close" onclick="closePlayer()">✕ Voltar ao feed</button>
   </div>
-
-  <section class="grid" id="videoGrid"></section>
-
-  <a
-    class="external"
-    href="https://www.youtube.com/"
-    target="_blank"
-    rel="noopener"
-  >
-    Abrir YouTube completo ↗
-  </a>
-
-</main>
-
-<footer>
-  MRBEAST HUB © 2026
-  <br><br>
-  Projeto independente. Vídeos e marcas pertencem aos seus proprietários.
-</footer>
+  <div class="player-container">
+    <iframe id="videoPlayer" allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+    </iframe>
+    <h2 class="player-title" id="playerTitle"></h2>
+    <div class="player-channel" id="playerChannel"></div>
+  </div>
+</div>
 
 <script>
-
-// =====================================
-// BANCO DE VÍDEOS INICIAL
-// =====================================
+// CADASTRO DOS VÍDEOS
+// Para adicionar um vídeo, copie um item e altere suas informações.
+// O ID é a parte depois de v= no endereço do YouTube.
 
 const videos = [
   {
-    id: "hxwpkM5w3Cc",
-    title: "I Spent 50 Hours Buried Alive",
-    channel: "MrBeast",
-    category: "MrBeast"
+    id:"M7lc1UVf-VE",
+    title:"Demonstração do player do YouTube",
+    channel:"YouTube",
+    category:"Tecnologia",
+    views:"Vídeo de demonstração",
+    avatar:"Y"
   },
   {
-    id: "gsWPpE4Rid0",
-    title: "MrBeast - Vídeo selecionado",
-    channel: "MrBeast",
-    category: "MrBeast"
+    id:"aqz-KE-bpKQ",
+    title:"Big Buck Bunny - Animação",
+    channel:"Blender",
+    category:"Entretenimento",
+    views:"Vídeo de animação",
+    avatar:"B"
+  },
+  {
+    id:"ScMzIvxBSi4",
+    title:"Vídeo de demonstração",
+    channel:"YouTube",
+    category:"Entretenimento",
+    views:"Vídeo de demonstração",
+    avatar:"Y"
   }
 ];
 
-// =====================================
-// MOSTRAR FEED
-// =====================================
+let selectedCategory="Todos";
 
-function renderFeed(list) {
+function renderVideos(){
+  const query=document.getElementById("searchInput").value
+    .toLowerCase().trim();
 
-  const grid = document.getElementById("videoGrid");
+  const filtered=videos.filter(video=>{
+    const matchesCategory=selectedCategory==="Todos" ||
+      video.category===selectedCategory;
+    const matchesSearch=
+      video.title.toLowerCase().includes(query) ||
+      video.channel.toLowerCase().includes(query) ||
+      video.category.toLowerCase().includes(query);
 
-  grid.innerHTML = "";
+    return matchesCategory && matchesSearch;
+  });
 
-  list.forEach(video => {
+  const grid=document.getElementById("videoGrid");
+  grid.innerHTML="";
 
-    const card = document.createElement("article");
+  if(filtered.length===0){
+    grid.innerHTML='<div class="empty">Nenhum vídeo encontrado no nosso catálogo.<br><br>Experimente outro nome.</div>';
+    return;
+  }
 
-    card.className = "card";
-
-    card.innerHTML = `
-      <div class="thumbnail">
-        <img
-          src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg"
-          alt="${video.title}"
-          loading="lazy"
-        >
-        <div class="play-overlay">▶</div>
-      </div>
-
-      <div class="card-info">
-        <h3>${video.title}</h3>
-        <p>${video.channel}</p>
+  filtered.forEach(video=>{
+    const card=document.createElement("article");
+    card.className="video";
+    card.innerHTML=`
+      <img class="thumb"
+        src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg"
+        alt="">
+      <div class="info">
+        <div class="avatar">${video.avatar}</div>
+        <div>
+          <div class="video-title">${escapeHTML(video.title)}</div>
+          <div class="channel">${escapeHTML(video.channel)}</div>
+          <div class="views">${escapeHTML(video.views)}</div>
+        </div>
       </div>
     `;
-
-    card.onclick = () => playVideo(video);
-
+    card.addEventListener("click",()=>openPlayer(video));
     grid.appendChild(card);
-
   });
-
 }
 
-// =====================================
-// PLAYER
-// =====================================
-
-function playVideo(video) {
-
-  const player = document.getElementById("player");
-
-  player.innerHTML = `
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.id)}?autoplay=1&rel=0"
-      title="${video.title}"
-      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-      allowfullscreen
-      referrerpolicy="strict-origin-when-cross-origin">
-    </iframe>
-  `;
-
-  document.getElementById("playerTitle").textContent =
-    video.title;
-
-  document.querySelector(".player-container").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  })[char]);
 }
 
-// =====================================
-// PESQUISA DO YOUTUBE
-// =====================================
-
-function searchYouTube() {
-
-  const query = document
-    .getElementById("searchInput")
-    .value.trim();
-
-  if(!query) return;
-
-  const url =
-    "https://www.youtube.com/results?search_query=" +
-    encodeURIComponent(query);
-
-  window.open(url, "_blank");
-
+function openPlayer(video){
+  document.getElementById("playerScreen").style.display="block";
+  document.getElementById("videoPlayer").src=
+    "https://www.youtube-nocookie.com/embed/"+encodeURIComponent(video.id)+"?autoplay=1";
+  document.getElementById("playerTitle").textContent=video.title;
+  document.getElementById("playerChannel").textContent=video.channel;
+  window.scrollTo(0,0);
 }
 
-function openYouTubeSearch(query) {
-
-  window.open(
-    "https://www.youtube.com/results?search_query=" +
-    encodeURIComponent(query),
-    "_blank"
-  );
-
+function closePlayer(){
+  document.getElementById("playerScreen").style.display="none";
+  document.getElementById("videoPlayer").src="";
 }
 
-// =====================================
-// CATEGORIAS
-// =====================================
-
-function selectCategory(category,button) {
-
-  document.querySelectorAll(".category").forEach(item=>{
-    item.classList.remove("active");
-  });
-
-  button.classList.add("active");
-
-  document.getElementById("feedTitle").textContent =
-    "🔥 " + category;
-
-  openYouTubeSearch(category);
-
+function setCategory(category,element){
+  selectedCategory=category;
+  document.querySelectorAll(".category").forEach(item=>
+    item.classList.remove("active"));
+  document.querySelectorAll(".side-item").forEach(item=>
+    item.classList.remove("active"));
+  if(element) element.classList.add("active");
+  renderVideos();
 }
 
-// =====================================
-// PESQUISA COM ENTER
-// =====================================
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("hidden");
+  document.getElementById("main").classList.toggle("expanded");
+}
 
-document.getElementById("searchInput")
-  .addEventListener("keydown",event=>{
-
-    if(event.key === "Enter"){
-      searchYouTube();
-    }
-
-  });
-
-// =====================================
-// INICIALIZAR
-// =====================================
-
-renderFeed(videos);
-
+renderVideos();
 </script>
 
 </body>
