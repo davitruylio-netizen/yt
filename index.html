@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Portal de Vídeos</title>
+  <title>Meu NAVEGADOR de Vídeos</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       background-color: #121212;
@@ -15,34 +16,48 @@
       flex-direction: column;
       align-items: center;
     }
-
-    h1 {
+    .search-box {
+      width: 100%;
+      max-width: 700px;
       margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
     }
-
+    input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #1e1e1e;
+      color: #fff;
+      font-size: 16px;
+    }
+    button {
+      padding: 12px 20px;
+      border-radius: 6px;
+      border: none;
+      background-color: #ff0000;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background-color: #cc0000; }
     .video-container {
       width: 100%;
       max-width: 800px;
-      margin-bottom: 30px;
       background: #1e1e1e;
       padding: 15px;
       border-radius: 8px;
     }
-
-    /* Torna o vídeo responsivo para celulares e PCs */
-    .responsive-iframe {
+    .responsive-video {
       position: relative;
       width: 100%;
-      padding-top: 56.25%; /* Proporção 16:9 */
+      padding-top: 56.25%;
     }
-
-    .responsive-iframe iframe, 
-    .responsive-iframe video {
+    .responsive-video iframe {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       border-radius: 6px;
       border: none;
     }
@@ -50,33 +65,36 @@
 </head>
 <body>
 
-  <h1>Meu Player de Vídeos</h1>
+  <h1>Assistir Vídeo por Link ou ID</h1>
 
-  <!-- Opção A: Vídeo do YouTube (sem sair do site) -->
+  <div class="search-box">
+    <input type="text" id="videoInput" placeholder="Cole o link do YouTube ou o ID do vídeo aqui...">
+    <button onclick="carregarVideo()">Assistir</button>
+  </div>
+
   <div class="video-container">
-    <h2>Vídeo via YouTube Embed</h2>
-    <div class="responsive-iframe">
-      <!-- Substitua o ID 'dQw4w9WgXcQ' pelo ID do seu vídeo do YouTube -->
-      <iframe 
-        src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
+    <div class="responsive-video">
+      <iframe id="player" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
     </div>
   </div>
 
-  <!-- Opção B: Vídeo local (.mp4) na mesma pasta -->
-  <div class="video-container">
-    <h2>Vídeo do próprio repositório</h2>
-    <div class="responsive-iframe">
-      <!-- Substitua 'seu-video.mp4' pelo arquivo presente na pasta do repositório -->
-      <video controls>
-        <source src="seu-video.mp4" type="video/mp4">
-        Seu navegador não suporta a tag de vídeo.
-      </video>
-    </div>
-  </div>
+  <script>
+    function carregarVideo() {
+      const input = document.getElementById('videoInput').value.trim();
+      let videoId = input;
+
+      // Extrai o ID caso a pessoa cole o link completo do YouTube
+      if (input.includes('v=')) {
+        videoId = input.split('v=')[1].split('&')[0];
+      } else if (input.includes('youtu.be/')) {
+        videoId = input.split('youtu.be/')[1].split('?')[0];
+      }
+
+      if (videoId) {
+        document.getElementById('player').src = "https://www.youtube-nocookie.com/embed/" + videoId;
+      }
+    }
+  </script>
 
 </body>
 </html>
-
