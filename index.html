@@ -1,270 +1,781 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MrBeast Feed Infinito</title>
-  <style>
-    :root {
-      --bg-dark: #0f0f0f;
-      --card-bg: #1f1f1f;
-      --accent-cyan: #00e5ff;
-      --text-main: #ffffff;
-      --text-sub: #aaa;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b12">
+<title>MrBeast Random | Vídeos aleatórios</title>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-    body {
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding-bottom: 50px;
-    }
+:root {
+  --bg: #080b12;
+  --panel: #101622;
+  --panel2: #151e2d;
+  --blue: #168cff;
+  --cyan: #39c5ff;
+  --white: #f5f8ff;
+  --muted: #8996a9;
+  --border: rgba(255,255,255,.08);
+}
 
-    /* Topo Fixo */
-    header {
-      background: #141414;
-      width: 100%;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #2a2a2a;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    .logo {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: var(--accent-cyan);
-      letter-spacing: 1px;
-    }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+}
 
-    .filter-buttons {
-      display: flex;
-      gap: 10px;
-    }
+button, input {
+  font: inherit;
+}
 
-    .filter-btn {
-      background: #252525;
-      color: var(--text-main);
-      border: 1px solid #3d3d3d;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
+button {
+  cursor: pointer;
+}
 
-    .filter-btn.active {
-      background: var(--accent-cyan);
-      color: #000;
-      border-color: var(--accent-cyan);
-    }
+header {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,11,18,.95);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(15px);
+}
 
-    main {
-      width: 100%;
-      max-width: 1300px;
-      padding: 20px;
-    }
+.logo {
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
 
-    /* Feed de Longos (Grade Horizontal 16:9) */
-    .grid-longos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 20px;
-    }
+.logo span {
+  color: var(--blue);
+}
 
-    .card-longo {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 10px;
-      border: 1px solid #2a2a2a;
-    }
+.logo small {
+  display: block;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 4px;
+  margin-top: 3px;
+}
 
-    .wrapper-16-9 {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #000;
-    }
+.header-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
 
-    /* Feed de Shorts (Grade Vertical 9:16) */
-    .grid-shorts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
+.header-btn {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 9px;
+  transition: .2s;
+}
 
-    .card-short {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 8px;
-      border: 1px solid #2a2a2a;
-    }
+.header-btn:hover {
+  border-color: var(--blue);
+}
 
-    .wrapper-9-16 {
-      position: relative;
-      width: 100%;
-      padding-top: 177.77%;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #000;
-    }
+main {
+  max-width: 1450px;
+  margin: auto;
+  padding: 35px 5%;
+}
 
-    iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+.hero {
+  padding: 45px 0 30px;
+}
 
-    /* Status do Carregamento Infinito */
-    .loading-status {
-      text-align: center;
-      padding: 30px;
-      color: var(--text-sub);
-      font-size: 1.1rem;
-      width: 100%;
-    }
+.eyebrow {
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
 
-    .hidden {
-      display: none !important;
-    }
-  </style>
+h1 {
+  font-size: clamp(32px, 5vw, 57px);
+  font-weight: 900;
+  letter-spacing: -2.5px;
+  line-height: 1.08;
+}
+
+h1 span {
+  color: var(--blue);
+}
+
+.hero p {
+  color: var(--muted);
+  margin-top: 15px;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+.random-banner {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.random-btn {
+  border: 0;
+  border-radius: 11px;
+  padding: 17px 28px;
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+  background: linear-gradient(110deg,#0878ef,#20b5ff);
+  box-shadow: 0 8px 30px rgba(0,130,255,.25);
+  transition: .25s;
+}
+
+.random-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,130,255,.4);
+}
+
+.random-btn:active {
+  transform: scale(.96);
+}
+
+.random-hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.section-title {
+  font-size: 21px;
+  font-weight: 800;
+  margin: 30px 0 18px;
+}
+
+.player-container {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 15px;
+  overflow: hidden;
+}
+
+.player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #03060a;
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.player iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.player-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at center,rgba(0,120,255,.16),transparent 55%),
+    #080d17;
+}
+
+.play-icon {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--blue);
+  font-size: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 40px rgba(0,140,255,.35);
+}
+
+.player-placeholder p {
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.player-info {
+  padding: 18px 5px 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.player-info h3 {
+  font-size: 17px;
+  margin-bottom: 7px;
+}
+
+.player-info p {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.favorite-btn {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: white;
+  padding: 12px 16px;
+}
+
+.favorite-btn.active {
+  color: #ff6385;
+  border-color: #ff6385;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin: 25px 0;
+  flex-wrap: wrap;
+}
+
+.search {
+  flex: 1;
+  min-width: 200px;
+  background: var(--panel);
+  color: white;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 13px 16px;
+  outline: none;
+}
+
+.search:focus {
+  border-color: var(--blue);
+}
+
+.categories {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.category {
+  background: var(--panel);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 10px 16px;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.category:hover, .category.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 20px;
+}
+
+.video-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+  transition: .25s;
+  cursor: pointer;
+}
+
+.video-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--blue);
+}
+
+.thumbnail {
+  aspect-ratio: 16/9;
+  position: relative;
+  background: var(--panel2);
+  overflow: hidden;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: .3s;
+}
+
+.video-card:hover img {
+  transform: scale(1.05);
+}
+
+.thumbnail::after {
+  content: "▶";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 27px;
+  background: rgba(0,0,0,.13);
+  opacity: 0;
+  transition: .2s;
+}
+
+.video-card:hover .thumbnail::after {
+  opacity: 1;
+}
+
+.card-info {
+  padding: 15px;
+}
+
+.card-info h3 {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 9px;
+}
+
+.card-info p {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.empty {
+  grid-column: 1/-1;
+  padding: 45px;
+  text-align: center;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 30px 15px;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 70px;
+}
+
+footer strong {
+  color: var(--blue);
+}
+
+@media(max-width:900px) {
+  .video-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:600px) {
+  header {
+    padding: 0 5%;
+    height: 68px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .header-btn {
+    padding: 9px;
+    font-size: 11px;
+  }
+
+  main {
+    padding: 20px 4%;
+  }
+
+  .hero {
+    padding-top: 30px;
+  }
+
+  h1 {
+    letter-spacing: -1.5px;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .player-container {
+    padding: 8px;
+  }
+
+  .random-btn {
+    width: 100%;
+  }
+
+  .random-banner {
+    gap: 12px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <div class="logo">MRBEAST INFINITE</div>
-    <div class="filter-buttons">
-      <button id="btn-longos" class="filter-btn active" onclick="mudarModo('longos')">🎬 Vídeos Longos</button>
-      <button id="btn-shorts" class="filter-btn" onclick="mudarModo('shorts')">📱 Shorts</button>
+<header>
+  <div class="logo">
+    MRBEAST <span>RANDOM</span>
+    <small>THE ULTIMATE VIDEO EXPERIENCE</small>
+  </div>
+
+  <div class="header-right">
+    <button class="header-btn" onclick="showFavorites()">
+      ♥ Favoritos
+    </button>
+    <button class="header-btn" onclick="window.open('https://www.youtube.com/@MrBeast','_blank')">
+      YouTube ↗
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="eyebrow">WELCOME TO THE BEAST WORLD</div>
+
+    <h1>
+      NÃO SABE O QUE<br>
+      ASSISTIR? <span>DEIXA COM A GENTE.</span>
+    </h1>
+
+    <p>
+      Descubra vídeos incríveis do MrBeast.
+      Desafios milionários, experiências extremas,
+      competições e muito mais.
+    </p>
+
+    <div class="random-banner">
+      <button class="random-btn" onclick="randomVideo()">
+        🎲 SURPREENDA-ME
+      </button>
+      <span class="random-hint">
+        Um clique. Um vídeo. Uma surpresa.
+      </span>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <!-- Container dos Vídeos Longos -->
-    <div id="container-longos" class="grid-longos"></div>
+  <h2 class="section-title">▶ Assistindo agora</h2>
 
-    <!-- Container dos Shorts -->
-    <div id="container-shorts" class="grid-shorts hidden"></div>
+  <section class="player-container">
+    <div class="player" id="player">
 
-    <div id="loading" class="loading-status">Gerando mais vídeos...</div>
-  </main>
+      <div class="player-placeholder" id="placeholder">
+        <div class="play-icon">▶</div>
+        <h2>SEU PRÓXIMO VÍDEO ESTÁ AQUI</h2>
+        <p>Clique em SURPREENDA-ME para começar.</p>
+      </div>
 
-  <script>
-    // Lista de vídeos representativos para o gerador de feed
-    const idsLongos = [
-      'kX3nB4UpJHY', '0e3GPea1Tyg', '48h57PspBec', '9bqk6ZUSZuA',
-      'fmf5yfiG4GA', '7ERb1ALu-f0', 'hx0tV2rIuX8', '0BJlL1628_k',
-      'erQ_9J-975U', 'gD_V4n7f1E8', 'VP8fT4f-W2I', 'f3k_wF1V1u8'
-    ];
+    </div>
 
-    const idsShorts = [
-      'r7P1v2s8kX4', '2uQ7nJ_0C5A', '9bqk6ZUSZuA', 'kX3nB4UpJHY',
-      'Y4S0-K3uRms', 'l9V414nU-7U', 'f77mJ91B_A8', 'Z3Yf5bU8YwM'
-    ];
+    <div class="player-info">
+      <div>
+        <h3 id="currentTitle">Nenhum vídeo selecionado</h3>
+        <p>MrBeast • Canal oficial</p>
+      </div>
 
-    let modoAtual = 'longos';
-    let carregando = false;
+      <button class="favorite-btn" id="favoriteBtn" onclick="toggleFavorite()">
+        ♡ Salvar
+      </button>
+    </div>
+  </section>
 
-    // Função para sortear um item aleatório da lista
-    function getRandomId(array) {
-      return array[Math.floor(Math.random() * array.length)];
-    }
+  <h2 class="section-title">🔥 Explore os vídeos</h2>
 
-    // Carrega mais vídeos no container ativo
-    function carregarMaisVideos(quantidade = 6) {
-      if (carregando) return;
-      carregando = true;
+  <div class="toolbar">
+    <input
+      class="search"
+      id="search"
+      placeholder="🔎 Pesquisar vídeos..."
+      oninput="renderVideos()"
+    >
+  </div>
 
-      const loadingEl = document.getElementById('loading');
-      loadingEl.innerText = "Gerando mais vídeos...";
+  <div class="categories">
+    <button class="category active" onclick="filterCategory('Todos',this)">Todos</button>
+    <button class="category" onclick="filterCategory('Desafios',this)">Desafios</button>
+    <button class="category" onclick="filterCategory('Dinheiro',this)">Dinheiro</button>
+    <button class="category" onclick="filterCategory('Experimentos',this)">Experimentos</button>
+    <button class="category" onclick="filterCategory('Favoritos',this)">♥ Favoritos</button>
+  </div>
 
-      setTimeout(() => {
-        if (modoAtual === 'longos') {
-          const container = document.getElementById('container-longos');
-          for (let i = 0; i < quantidade; i++) {
-            const id = getRandomId(idsLongos);
-            const card = document.createElement('div');
-            card.className = 'card-longo';
-            card.innerHTML = `
-              <div class="wrapper-16-9">
-                <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>
-              </div>
-            `;
-            container.appendChild(card);
-          }
-        } else {
-          const container = document.getElementById('container-shorts');
-          for (let i = 0; i < quantidade; i++) {
-            const id = getRandomId(idsShorts);
-            const card = document.createElement('div');
-            card.className = 'card-short';
-            card.innerHTML = `
-              <div class="wrapper-9-16">
-                <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>
-              </div>
-            `;
-            container.appendChild(card);
-          }
-        }
-        carregando = false;
-      }, 300);
-    }
+  <div class="video-grid" id="videoGrid"></div>
 
-    // Alternar entre o feed de vídeos longos e shorts
-    function mudarModo(novoModo) {
-      if (modoAtual === novoModo) return;
+</main>
 
-      modoAtual = novoModo;
+<footer>
+  MRBEAST RANDOM © 2026
+  <br><br>
+  Projeto independente de fã. Não afiliado oficialmente ao MrBeast.
+  Vídeos e reprodução pertencem ao YouTube e seus respectivos proprietários.
+  <br><br>
+  <strong>MADE FOR BEAST FANS.</strong>
+</footer>
 
-      const btnLongos = document.getElementById('btn-longos');
-      const btnShorts = document.getElementById('btn-shorts');
-      const containerLongos = document.getElementById('container-longos');
-      const containerShorts = document.getElementById('container-shorts');
+<script>
 
-      if (novoModo === 'longos') {
-        btnLongos.classList.add('active');
-        btnShorts.classList.remove('active');
-        containerLongos.classList.remove('hidden');
-        containerShorts.classList.add('hidden');
-        if (containerLongos.children.length === 0) carregarMaisVideos(6);
-      } else {
-        btnShorts.classList.add('active');
-        btnLongos.classList.remove('active');
-        containerShorts.classList.remove('hidden');
-        containerLongos.classList.add('hidden');
-        if (containerShorts.children.length === 0) carregarMaisVideos(6);
-      }
-    }
+// ==========================================
+// 1. BANCO INICIAL DE VÍDEOS
+// ==========================================
 
-    // Detector de rolagem da página (Infinite Scroll)
-    window.addEventListener('scroll', () => {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
-        carregarMaisVideos(4);
-      }
-    });
+const videos = [
 
-    // Carregamento inicial
-    carregarMaisVideos(6);
-  </script>
+  {
+    id: "hxwpkM5w3Cc",
+    title: "I Spent 50 Hours Buried Alive",
+    category: "Desafios"
+  },
+
+  {
+    id: "gsWPpE4Rid0",
+    title: "Vídeo clássico do MrBeast",
+    category: "Experimentos"
+  }
+
+];
+
+// ==========================================
+// 2. VARIÁVEIS
+// ==========================================
+
+let currentVideo = null;
+let currentCategory = "Todos";
+let favorites = JSON.parse(
+  localStorage.getItem("mrbeastFavorites") || "[]"
+);
+
+// ==========================================
+// 3. MOSTRAR VÍDEOS
+// ==========================================
+
+function renderVideos() {
+
+  const grid = document.getElementById("videoGrid");
+
+  const search = document
+    .getElementById("search")
+    .value.toLowerCase();
+
+  let filtered = videos.filter(video => {
+
+    const matchesSearch =
+      video.title.toLowerCase().includes(search);
+
+    const matchesCategory =
+      currentCategory === "Todos" ||
+      (currentCategory === "Favoritos"
+        ? favorites.includes(video.id)
+        : video.category === currentCategory);
+
+    return matchesSearch && matchesCategory;
+
+  });
+
+  grid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    grid.innerHTML =
+      '<div class="empty">Nenhum vídeo encontrado.</div>';
+    return;
+  }
+
+  filtered.forEach(video => {
+
+    const card = document.createElement("article");
+    card.className = "video-card";
+
+    card.innerHTML = `
+      <div class="thumbnail">
+        <img
+          src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg"
+          alt=""
+          loading="lazy"
+        >
+      </div>
+
+      <div class="card-info">
+        <h3>${video.title}</h3>
+        <p>MRBEAST • ${video.category}</p>
+      </div>
+    `;
+
+    card.onclick = () => playVideo(video);
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+// ==========================================
+// 4. REPRODUZIR VÍDEO
+// ==========================================
+
+function playVideo(video) {
+
+  currentVideo = video;
+
+  const player = document.getElementById("player");
+
+  player.innerHTML = `
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0"
+      title="${video.title}"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  `;
+
+  document.getElementById("currentTitle").textContent =
+    video.title;
+
+  updateFavoriteButton();
+
+  document.getElementById("player").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+}
+
+// ==========================================
+// 5. SORTEAR VÍDEO ALEATÓRIO
+// ==========================================
+
+function randomVideo() {
+
+  let available = videos.filter(v =>
+    v.id !== (currentVideo ? currentVideo.id : "")
+  );
+
+  if (available.length === 0) {
+    available = videos;
+  }
+
+  const randomIndex = Math.floor(
+    Math.random() * available.length
+  );
+
+  playVideo(available[randomIndex]);
+
+}
+
+// ==========================================
+// 6. FAVORITOS
+// ==========================================
+
+function toggleFavorite() {
+
+  if (!currentVideo) return;
+
+  if (favorites.includes(currentVideo.id)) {
+
+    favorites = favorites.filter(
+      id => id !== currentVideo.id
+    );
+
+  } else {
+
+    favorites.push(currentVideo.id);
+
+  }
+
+  localStorage.setItem(
+    "mrbeastFavorites",
+    JSON.stringify(favorites)
+  );
+
+  updateFavoriteButton();
+  renderVideos();
+
+}
+
+function updateFavoriteButton() {
+
+  const button = document.getElementById("favoriteBtn");
+
+  if (!currentVideo) return;
+
+  const saved = favorites.includes(currentVideo.id);
+
+  button.classList.toggle("active", saved);
+
+  button.innerHTML = saved ? "♥ Salvo" : "♡ Salvar";
+
+}
+
+function showFavorites() {
+
+  filterCategory(
+    "Favoritos",
+    document.querySelectorAll(".category")[4]
+  );
+
+  document.getElementById("videoGrid").scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
+
+// ==========================================
+// 7. CATEGORIAS
+// ==========================================
+
+function filterCategory(category, button) {
+
+  currentCategory = category;
+
+  document.querySelectorAll(".category").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if (button) button.classList.add("active");
+
+  renderVideos();
+
+}
+
+// ==========================================
+// 8. INICIALIZAÇÃO
+// ==========================================
+
+renderVideos();
+
+</script>
 
 </body>
 </html>
