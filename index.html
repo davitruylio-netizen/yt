@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Canal MrBeast</title>
+  <title>MrBeast - Vídeos Longos</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,32 +15,53 @@
       color: #ffffff;
       margin: 0;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
     }
 
     h1 {
-      margin-bottom: 20px;
       color: #ff0000;
+      font-size: 2rem;
+      margin-bottom: 5px;
     }
 
-    .video-container {
-      width: 100%;
-      max-width: 900px;
-      background: #1f1f1f;
-      padding: 15px;
+    p {
+      color: #aaa;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .video-card {
+      background-color: #1f1f1f;
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .responsive-iframe {
+    .video-card h2 {
+      font-size: 1rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .responsive-video {
       position: relative;
       width: 100%;
       padding-top: 56.25%; /* Proporção 16:9 */
     }
 
-    .responsive-iframe iframe {
+    .responsive-video iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -53,17 +74,61 @@
 </head>
 <body>
 
-  <h1>Vídeos do Canal MrBeast</h1>
+  <header>
+    <h1>MrBeast - Principais Vídeos Longos</h1>
+    <p>Assista os grandes desafios completos direto no site</p>
+  </header>
 
-  <div class="video-container">
-    <div class="responsive-iframe">
-      <!-- O parâmetro 'list=UUX6OQ3DkcsbYNE6H8uQQuVA' carrega todos os envios do canal do MrBeast -->
-      <iframe 
-        src="https://www.youtube-nocookie.com/embed/videoseries?list=UUX6OQ3DkcsbYNE6H8uQQuVA" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
+  <div class="video-grid">
+
+    <!-- VÍDEO 1 -->
+    <div class="video-card">
+      <h2>$1 vs $500,000 Plane Ticket!</h2>
+      <div class="responsive-video">
+        <iframe 
+          src="https://www.youtube-nocookie.com/embed/kX3nB4UpJHY" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
     </div>
+
+    <!-- VÍDEO 2 -->
+    <div class="video-card">
+      <h2>7 Days Stranded At Sea</h2>
+      <div class="responsive-video">
+        <iframe 
+          src="https://www.youtube-nocookie.com/embed/0e3GPea1Tyg" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <!-- VÍDEO 3 -->
+    <div class="video-card">
+      <h2>$1 vs $1,000,000 Hotel Room!</h2>
+      <div class="responsive-video">
+        <iframe 
+          src="https://www.youtube-nocookie.com/embed/48h57PspBec" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <!-- VÍDEO 4 -->
+    <div class="video-card">
+      <h2>7 Days Stranded In A Cave</h2>
+      <div class="responsive-video">
+        <iframe 
+          src="https://www.youtube-nocookie.com/embed/9bqk6ZUSZuA" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
   </div>
 
 </body>
