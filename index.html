@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu NAVEGADOR de Vídeos</title>
+  <title>Canal MrBeast</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background-color: #121212;
+      background-color: #0f0f0f;
       color: #ffffff;
       margin: 0;
       padding: 20px;
@@ -16,85 +19,52 @@
       flex-direction: column;
       align-items: center;
     }
-    .search-box {
-      width: 100%;
-      max-width: 700px;
+
+    h1 {
       margin-bottom: 20px;
-      display: flex;
-      gap: 10px;
+      color: #ff0000;
     }
-    input[type="text"] {
-      flex: 1;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      background: #1e1e1e;
-      color: #fff;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px 20px;
-      border-radius: 6px;
-      border: none;
-      background-color: #ff0000;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover { background-color: #cc0000; }
+
     .video-container {
       width: 100%;
-      max-width: 800px;
-      background: #1e1e1e;
+      max-width: 900px;
+      background: #1f1f1f;
       padding: 15px;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
-    .responsive-video {
+
+    .responsive-iframe {
       position: relative;
       width: 100%;
-      padding-top: 56.25%;
+      padding-top: 56.25%; /* Proporção 16:9 */
     }
-    .responsive-video iframe {
+
+    .responsive-iframe iframe {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border-radius: 6px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
       border: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>Assistir Vídeo por Link ou ID</h1>
-
-  <div class="search-box">
-    <input type="text" id="videoInput" placeholder="Cole o link do YouTube ou o ID do vídeo aqui...">
-    <button onclick="carregarVideo()">Assistir</button>
-  </div>
+  <h1>Vídeos do Canal MrBeast</h1>
 
   <div class="video-container">
-    <div class="responsive-video">
-      <iframe id="player" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+    <div class="responsive-iframe">
+      <!-- O parâmetro 'list=UUX6OQ3DkcsbYNE6H8uQQuVA' carrega todos os envios do canal do MrBeast -->
+      <iframe 
+        src="https://www.youtube-nocookie.com/embed/videoseries?list=UUX6OQ3DkcsbYNE6H8uQQuVA" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
     </div>
   </div>
-
-  <script>
-    function carregarVideo() {
-      const input = document.getElementById('videoInput').value.trim();
-      let videoId = input;
-
-      // Extrai o ID caso a pessoa cole o link completo do YouTube
-      if (input.includes('v=')) {
-        videoId = input.split('v=')[1].split('&')[0];
-      } else if (input.includes('youtu.be/')) {
-        videoId = input.split('youtu.be/')[1].split('?')[0];
-      }
-
-      if (videoId) {
-        document.getElementById('player').src = "https://www.youtube-nocookie.com/embed/" + videoId;
-      }
-    }
-  </script>
 
 </body>
 </html>
