@@ -985,7 +985,7 @@ function createVideoCard(video,creator) {
   thumb.append(image,play);
 
   const title = document.createElement("h3");
-  title.textContent = video.title;
+  title.textContent = video.translatedTitle || video.title;
 
   const meta = document.createElement("div");
   meta.className = "video-meta";
