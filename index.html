@@ -4,521 +4,765 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b12">
 <title>MRBEAST HUB</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #080b12;
+  --panel: #101621;
+  --panel2: #151e2c;
+  --border: rgba(255,255,255,.08);
+  --text: #f4f6fb;
+  --muted: #8994a7;
+  --blue: #3478ff;
+  --blue2: #1859e8;
+}
+
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  background: #0b0d12;
-  color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
 }
 
 button, input {
   font: inherit;
 }
 
-header {
-  height: 70px;
-  background: #10131b;
-  border-bottom: 1px solid #252a36;
+button {
+  cursor: pointer;
+  border: none;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 255px;
+  background: #0c111b;
+  border-right: 1px solid var(--border);
+  position: fixed;
+  inset: 0 auto 0 0;
+  padding: 25px 16px;
+  z-index: 20;
+  overflow-y: auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 9px 30px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--blue);
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  box-shadow: 0 5px 20px #3478ff55;
+}
+
+.logo span:last-child {
+  color: var(--blue);
+}
+
+.side-label {
+  color: #697589;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 15px 10px 10px;
+}
+
+.nav-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  color: #aab4c5;
+  background: transparent;
+  border-radius: 10px;
+  text-align: left;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  background: #1a2b48;
+  color: white;
+}
+
+.nav-button.active {
+  box-shadow: inset 3px 0 var(--blue);
+}
+
+.creator-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  background: transparent;
+  color: #aab4c5;
+  border-radius: 9px;
+  text-align: left;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.creator-nav:hover {
+  background: var(--panel2);
+  color: white;
+}
+
+.creator-nav img {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #263247;
+}
+
+.side-bottom {
+  margin-top: 30px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* MAIN */
+
+.main {
+  margin-left: 255px;
+  width: calc(100% - 255px);
+  min-height: 100vh;
+}
+
+.topbar {
+  height: 76px;
+  padding: 0 35px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 0 25px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,11,18,.9);
   position: sticky;
   top: 0;
   z-index: 10;
+  backdrop-filter: blur(15px);
 }
 
-.logo {
+.mobile-menu {
+  display: none;
+  background: transparent;
+  color: white;
   font-size: 23px;
-  font-weight: 900;
-  letter-spacing: -1px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #121a27;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0 15px;
+  width: min(480px, 65%);
+  height: 43px;
+  transition: .2s;
+}
+
+.search-box:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px #3478ff18;
+}
+
+.search-box span {
+  color: var(--muted);
+}
+
+.search-box input {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  color: white;
+  font-size: 13px;
+}
+
+.search-box button {
+  background: var(--blue);
+  color: white;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.top-status {
+  color: #8d9ab0;
+  font-size: 11px;
   white-space: nowrap;
 }
 
-.logo span {
-  color: #3985ff;
+.content {
+  padding: 35px;
+  max-width: 1600px;
+  margin: auto;
 }
 
-.search {
-  display: flex;
-  width: min(450px, 50%);
-}
+/* HERO */
 
-.search input {
-  width: 100%;
-  background: #1b202b;
-  border: 1px solid #303747;
-  padding: 12px 17px;
-  color: white;
-  border-radius: 25px 0 0 25px;
-  outline: none;
-}
-
-.search input:focus {
-  border-color: #3985ff;
-}
-
-.search button {
-  background: #286cff;
-  color: white;
-  border: 0;
-  padding: 0 18px;
-  border-radius: 0 25px 25px 0;
-  cursor: pointer;
-}
-
-.profile {
-  background: #286cff;
-  padding: 11px 14px;
-  border-radius: 50%;
-}
-
-.layout {
-  display: flex;
-  min-height: calc(100vh - 70px);
-}
-
-aside {
-  width: 225px;
-  background: #10131b;
-  padding: 22px 13px;
-  border-right: 1px solid #252a36;
-  flex-shrink: 0;
-}
-
-.nav-title {
-  color: #747f94;
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  padding: 10px 12px 14px;
-}
-
-.nav {
+.hero {
+  min-height: 265px;
+  padding: 35px;
+  border-radius: 19px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 13px;
+  background:
+    linear-gradient(90deg, rgba(7,12,24,.98), rgba(7,12,24,.68), rgba(7,12,24,.15)),
+    url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1500&q=85');
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #ffffff12;
+  margin-bottom: 35px;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  right: 5%;
+  top: -100px;
+  background: #1765ff;
+  filter: blur(130px);
+  opacity: .25;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+}
+
+.hero-tag {
+  display: inline-block;
+  color: #83adff;
+  background: #3478ff22;
+  border: 1px solid #3478ff55;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 4vw, 47px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 13px;
+}
+
+.hero h1 span {
+  color: #5790ff;
+}
+
+.hero p {
+  color: #b4bfd1;
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 440px;
+  margin-bottom: 20px;
+}
+
+.primary-button {
+  background: var(--blue);
+  color: white;
   border-radius: 9px;
-  cursor: pointer;
-  color: #c4cbd8;
-  margin-bottom: 5px;
-  font-size: 14px;
+  padding: 12px 19px;
+  font-size: 12px;
+  font-weight: 800;
   transition: .2s;
 }
 
-.nav:hover, .nav.active {
-  background: #242c3c;
-  color: white;
+.primary-button:hover {
+  background: #5590ff;
+  transform: translateY(-2px);
 }
 
-.nav img {
-  width: 29px;
-  height: 29px;
-  border-radius: 50%;
-  object-fit: cover;
+/* SECTION */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 18px;
 }
 
-main {
-  flex: 1;
-  min-width: 0;
-  padding: 30px;
+.section-header h2 {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.5px;
 }
 
-.welcome {
-  background: linear-gradient(110deg, #152b53, #10131b 75%);
-  border: 1px solid #263e68;
-  border-radius: 18px;
-  padding: 30px;
-  margin-bottom: 28px;
+.section-header p {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
 }
 
-.welcome h1 {
-  font-size: 30px;
-  margin-bottom: 10px;
+.section-link {
+  color: #6fa0ff;
+  font-size: 11px;
+  font-weight: 700;
+  background: transparent;
 }
 
-.welcome p {
-  color: #b7c5dc;
-  line-height: 1.6;
-}
+/* CREATORS */
 
-.section-title {
-  font-size: 21px;
-  margin: 28px 0 17px;
-}
-
-.creators {
+.creators-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+  margin-bottom: 40px;
 }
 
 .creator-card {
-  background: #151a25;
-  border: 1px solid #272e3d;
-  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
   padding: 18px;
+  transition: .25s;
   cursor: pointer;
-  transition: .2s;
+  min-width: 0;
 }
 
 .creator-card:hover {
   transform: translateY(-4px);
-  border-color: #4385ff;
-  background: #1b2332;
+  border-color: #3478ff88;
+  background: #131d2c;
+  box-shadow: 0 12px 35px #0005;
 }
 
-.creator-card img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 13px;
-  background: #252a36;
-}
-
-.creator-card h3 {
-  font-size: 17px;
-  margin-bottom: 6px;
-}
-
-.creator-card p {
-  font-size: 12px;
-  color: #929db0;
-}
-
-.creator-card button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
-  border: 0;
-  border-radius: 8px;
-  background: #286cff;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#channelPage {
-  display: none;
-}
-
-.back {
-  background: #202838;
-  color: white;
-  border: 0;
-  padding: 11px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 22px;
-}
-
-.channel-header {
+.creator-top {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-bottom: 22px;
-  flex-wrap: wrap;
+  gap: 13px;
+  margin-bottom: 14px;
 }
 
-.channel-header img {
-  width: 82px;
-  height: 82px;
+.creator-avatar {
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   object-fit: cover;
-  background: #252a36;
+  background: #263247;
+  border: 2px solid #3478ff55;
 }
 
-.channel-header h1 {
-  font-size: 26px;
-  margin-bottom: 7px;
-}
-
-.channel-header p {
-  color: #9da9bc;
-  font-size: 13px;
-}
-
-.channel-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.video-count {
-  color: #aeb9cc;
-  font-size: 13px;
-}
-
-.refresh-button {
-  background: #202838;
-  color: white;
-  border: 1px solid #303c50;
-  border-radius: 8px;
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-.refresh-button:hover {
-  border-color: #4385ff;
-}
-
-.player-section {
-  display: none;
-  margin-bottom: 30px;
-  background: #151a25;
-  padding: 15px;
-  border: 1px solid #293247;
-  border-radius: 14px;
-}
-
-.player-section h2 {
-  font-size: 18px;
-  margin-bottom: 13px;
-}
-
-.player {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.player iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.player-title {
-  color: #dce4f2;
-  margin-top: 12px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.videos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 22px 16px;
-}
-
-.video-card {
-  cursor: pointer;
+.creator-info {
   min-width: 0;
 }
 
-.video-thumbnail {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #1b202b;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 11px;
+.creator-info h3 {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 5px;
 }
 
-.video-thumbnail img {
+.creator-info span {
+  color: #7faaff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.creator-card p {
+  color: #8e9aae;
+  font-size: 11px;
+  line-height: 1.6;
+  min-height: 36px;
+}
+
+.creator-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 15px;
+  padding-top: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #91a0b7;
+  font-size: 10px;
+}
+
+.creator-footer strong {
+  color: #6fa0ff;
+}
+
+/* VIDEO GRID */
+
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.video-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: .25s;
+  min-width: 0;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  border-color: #3478ff88;
+}
+
+.thumbnail {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #182235;
+}
+
+.thumbnail img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: .25s;
+  transition: .4s;
 }
 
-.video-card:hover .video-thumbnail img {
+.video-card:hover .thumbnail img {
   transform: scale(1.05);
 }
 
 .play-overlay {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,.1);
+  display: grid;
+  place-items: center;
+  background: #0003;
   opacity: 0;
   transition: .2s;
-  font-size: 42px;
 }
 
 .video-card:hover .play-overlay {
   opacity: 1;
-  background: rgba(0,0,0,.35);
 }
 
-.video-card h3 {
-  font-size: 14px;
-  line-height: 1.45;
-  margin-bottom: 7px;
+.play-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--blue);
+  color: white;
+  font-size: 19px;
+  box-shadow: 0 5px 25px #0007;
+}
+
+.video-info {
+  padding: 13px;
+}
+
+.video-info h3 {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  min-height: 36px;
 }
 
-.video-card p {
-  color: #8995a9;
-  font-size: 12px;
-}
-
-.channel-actions {
+.video-meta {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 25px;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  color: #8794a9;
+  font-size: 10px;
 }
 
-.action {
-  background: #202838;
-  color: white;
-  text-decoration: none;
-  padding: 11px 15px;
-  border-radius: 8px;
-  font-size: 13px;
+.video-meta img {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.action.primary {
-  background: #286cff;
+/* CHANNEL */
+
+.channel-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 23px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 28px;
 }
 
-.status {
-  color: #aeb9cc;
-  padding: 35px 10px;
-  text-align: center;
-  line-height: 1.7;
-  grid-column: 1 / -1;
+.channel-header img {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #3478ff77;
 }
 
-.status.error {
-  color: #ff9999;
+.channel-header h1 {
+  font-size: 23px;
+  margin-bottom: 7px;
 }
 
-.empty {
-  color: #929db0;
-  padding: 30px 0;
-}
-
-footer {
-  color: #687386;
-  text-align: center;
-  padding: 35px 10px;
+.channel-header p {
   font-size: 12px;
-  border-top: 1px solid #202635;
-  margin-top: 40px;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
-@media(max-width:750px) {
-  header {
-    padding: 0 13px;
-    gap: 10px;
-  }
+.channel-header a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #76a4ff;
+  font-size: 11px;
+  text-decoration: none;
+  font-weight: 700;
+}
 
-  .logo {
-    font-size: 17px;
-  }
+/* PLAYER */
 
-  .profile {
-    display: none;
-  }
+.player-section {
+  margin-bottom: 30px;
+}
 
-  .search {
-    width: 55%;
-  }
+.player-container {
+  background: #000;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
 
-  aside {
-    width: 65px;
-    padding: 15px 6px;
-  }
+.player-container iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
 
-  .nav {
-    justify-content: center;
-    padding: 13px 5px;
-    font-size: 0;
-  }
+.player-title {
+  padding: 17px;
+  background: var(--panel);
+}
 
-  .nav img {
-    width: 34px;
-    height: 34px;
-  }
+.player-title h2 {
+  font-size: 16px;
+  line-height: 1.5;
+}
 
-  .nav-title {
-    display: none;
-  }
+/* STATES */
 
-  main {
-    padding: 17px 13px;
-  }
+.message {
+  text-align: center;
+  padding: 55px 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--muted);
+}
 
-  .welcome {
-    padding: 22px;
-  }
+.message h3 {
+  color: white;
+  font-size: 17px;
+  margin-bottom: 9px;
+}
 
-  .welcome h1 {
-    font-size: 24px;
-  }
+.message p {
+  font-size: 12px;
+  line-height: 1.7;
+}
 
-  .creators {
+.spinner {
+  width: 27px;
+  height: 27px;
+  border: 3px solid #ffffff22;
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 25px 35px;
+  color: #68758a;
+  font-size: 10px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .creators-grid,
+  .videos-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: .25s;
+    box-shadow: 15px 0 40px #0008;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .topbar {
+    padding: 0 15px;
+    height: 65px;
+    gap: 12px;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+
+  .search-box {
+    width: 100%;
+    height: 40px;
+  }
+
+  .top-status {
+    display: none;
+  }
+
+  .content {
+    padding: 20px 15px;
+  }
+
+  .hero {
+    padding: 25px;
+    min-height: 280px;
+    background-position: 65% center;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .creators-grid,
+  .videos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
   }
 
   .creator-card {
-    padding: 13px;
+    padding: 12px;
   }
 
-  .creator-card h3 {
-    font-size: 14px;
+  .creator-avatar {
+    width: 43px;
+    height: 43px;
   }
 
-  .creator-card img {
-    width: 52px;
-    height: 52px;
+  .creator-info h3 {
+    font-size: 12px;
+  }
+
+  .creator-card p {
+    font-size: 10px;
+  }
+
+  .video-info {
+    padding: 10px;
+  }
+
+  .video-info h3 {
+    font-size: 11px;
+  }
+
+  .channel-header {
+    padding: 15px;
+    gap: 13px;
+  }
+
+  .channel-header img {
+    width: 65px;
+    height: 65px;
   }
 
   .channel-header h1 {
-    font-size: 21px;
+    font-size: 18px;
   }
 
-  .videos-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 10px;
-  }
-
-  .video-card h3 {
-    font-size: 12px;
-  }
-
-  .video-thumbnail {
-    border-radius: 8px;
+  .footer {
+    padding: 20px 15px;
   }
 }
 
-@media(max-width:390px) {
-  .logo {
-    font-size: 14px;
-  }
-
-  .search input {
-    padding: 10px;
-    font-size: 12px;
-  }
-
-  .search button {
-    padding: 0 12px;
+@media (max-width: 380px) {
+  .creators-grid,
+  .videos-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -526,130 +770,152 @@ footer {
 
 <body>
 
-<header>
-  <div class="logo">MRBEAST <span>HUB</span></div>
+<div class="app">
 
-  <div class="search">
-    <input
-      id="search"
-      placeholder="Pesquisar criadores..."
-      oninput="handleSearch()"
-    >
-    <button onclick="handleSearch()">⌕</button>
-  </div>
+  <aside class="sidebar" id="sidebar">
 
-  <div class="profile">M</div>
-</header>
-
-<div class="layout">
-
-<aside>
-  <div class="nav-title">NAVEGAÇÃO</div>
-
-  <div class="nav active" id="homeNav" onclick="goHome()">
-    🏠 Início
-  </div>
-
-  <div class="nav-title">CRIADORES</div>
-  <div id="sidebarCreators"></div>
-</aside>
-
-<main>
-
-<section id="homePage">
-
-  <div class="welcome">
-    <h1>Bem-vindo ao MRBEAST HUB</h1>
-    <p>
-      Seus criadores favoritos em um só lugar.
-      Explore os vídeos, encontre seus criadores favoritos
-      e assista sem precisar sair da nossa plataforma.
-    </p>
-  </div>
-
-  <h2 class="section-title">⭐ Criadores em destaque</h2>
-
-  <div class="creators" id="creatorGrid"></div>
-
-</section>
-
-<section id="channelPage">
-
-  <button class="back" onclick="goHome()">
-    ← Voltar ao início
-  </button>
-
-  <div class="channel-header">
-    <img id="channelAvatar" src="" alt="">
-
-    <div>
-      <h1 id="channelName"></h1>
-      <p id="channelDescription"></p>
-    </div>
-  </div>
-
-  <div class="channel-toolbar">
-
-    <div class="video-count" id="videoCount">
-      Carregando vídeos...
+    <div class="logo">
+      <div class="logo-icon">▶</div>
+      MRBEAST <span>HUB</span>
     </div>
 
-    <button class="refresh-button" onclick="refreshVideos()">
-      ↻ Atualizar vídeos
+    <div class="side-label">MENU PRINCIPAL</div>
+
+    <button class="nav-button active" onclick="goHome()">
+      <span>⌂</span> Início
     </button>
 
-  </div>
+    <button class="nav-button" onclick="showAllVideos()">
+      <span>▶</span> Todos os vídeos
+    </button>
 
-  <section class="player-section" id="playerSection">
+    <div class="side-label">SEUS CRIADORES</div>
 
-    <h2>▶ Assistindo agora</h2>
+    <div id="sidebarCreators"></div>
 
-    <div class="player">
-      <iframe
-        id="videoPlayer"
-        src=""
-        title="Player de vídeo"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-      </iframe>
+    <div class="side-bottom">
+      <strong style="color:white">MRBEAST HUB</strong><br>
+      Seus criadores favoritos em um só lugar.
     </div>
 
-    <div class="player-title" id="playerTitle"></div>
+  </aside>
 
-  </section>
+  <main class="main">
 
-  <h2 class="section-title">Todos os vídeos</h2>
+    <header class="topbar">
 
-  <div class="videos-grid" id="videosGrid"></div>
+      <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
 
-  <div class="channel-actions">
+      <form class="search-box" onsubmit="handleSearch(event)">
+        <span>⌕</span>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Pesquisar criadores ou vídeos..."
+        >
+        <button type="submit">Buscar</button>
+      </form>
 
-    <a id="youtubeChannel" class="action primary"
-       href="#" target="_blank" rel="noopener">
-      Abrir canal no YouTube
-    </a>
+      <div class="top-status">● HUB ONLINE</div>
 
-    <a id="youtubeVideos" class="action"
-       href="#" target="_blank" rel="noopener">
-      Ver vídeos no YouTube
-    </a>
+    </header>
 
-  </div>
+    <div class="content">
 
-</section>
+      <section id="homePage">
 
-<footer>
-  MRBEAST HUB © 2026 — Todos os direitos dos vídeos pertencem aos seus criadores.
-</footer>
+        <div class="hero">
+          <div class="hero-content">
+            <div class="hero-tag">SEU UNIVERSO DE VÍDEOS</div>
 
-</main>
+            <h1>SEUS CRIADORES.<br><span>SEU MUNDO.</span></h1>
+
+            <p>
+              Descubra os vídeos dos seus criadores favoritos em um só lugar.
+              Explore canais, encontre conteúdos e assista diretamente pelo HUB.
+            </p>
+
+            <button class="primary-button" onclick="showAllVideos()">
+              EXPLORAR VÍDEOS →
+            </button>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div>
+            <h2>Seus criadores</h2>
+            <p>Explore os canais disponíveis no MRBEAST HUB.</p>
+          </div>
+        </div>
+
+        <div class="creators-grid" id="creatorsGrid"></div>
+
+      </section>
+
+      <section id="channelPage" class="hidden">
+
+        <div class="channel-header" id="channelHeader"></div>
+
+        <div class="section-header">
+          <div>
+            <h2>Vídeos do canal</h2>
+            <p>Conteúdos publicados pelo criador.</p>
+          </div>
+
+          <button class="section-link" onclick="refreshVideos()">
+            ↻ Atualizar
+          </button>
+        </div>
+
+        <div id="channelVideos" class="videos-grid"></div>
+
+      </section>
+
+      <section id="allVideosPage" class="hidden">
+
+        <div class="section-header">
+          <div>
+            <h2>Todos os vídeos</h2>
+            <p>Pesquise os vídeos dos seus criadores favoritos.</p>
+          </div>
+
+          <button class="section-link" onclick="loadAllVideos(true)">
+            ↻ Atualizar
+          </button>
+        </div>
+
+        <div id="allVideosGrid" class="videos-grid"></div>
+
+      </section>
+
+      <section id="searchPage" class="hidden">
+
+        <div class="section-header">
+          <div>
+            <h2 id="searchTitle">Resultados</h2>
+            <p id="searchDescription">Conteúdos encontrados.</p>
+          </div>
+        </div>
+
+        <div id="searchResults" class="videos-grid"></div>
+
+      </section>
+
+    </div>
+
+    <footer class="footer">
+      MRBEAST HUB © 2026 — Projeto independente de organização de vídeos.
+    </footer>
+
+  </main>
+
 </div>
 
 <script>
 
-// ============================================
-// BANCO DE CRIADORES
-// ============================================
+/* ==========================================
+   CONFIGURAÇÃO DOS CRIADORES
+========================================== */
 
 const creators = [
 
@@ -657,7 +923,7 @@ const creators = [
     name: "MrBeast",
     handle: "@MrBeast",
     channelId: "UCX6OQ3DkcsbYNE6H8uQQuVA",
-    description: "Desafios gigantes, experiências e entretenimento.",
+    description: "Desafios gigantescos, experiências, competições e entretenimento.",
     category: "Entretenimento",
     avatar: "https://unavatar.io/youtube/MrBeast"
   },
@@ -666,7 +932,7 @@ const creators = [
     name: "Jazzghost",
     handle: "@jazzghost",
     channelId: "UCIXguhHCl8eDTkXpEuiGPUA",
-    description: "Games, Minecraft, aventuras e diversão.",
+    description: "Games, Minecraft, desafios e muita diversão.",
     category: "Games",
     avatar: "https://unavatar.io/youtube/jazzghost"
   },
@@ -675,7 +941,7 @@ const creators = [
     name: "Geleia",
     handle: "@geleia0",
     channelId: "UCEfGV5hx2VrXl4jOUnG0MRQ",
-    description: "Minecraft, desafios e aventuras.",
+    description: "Minecraft, desafios, aventuras e entretenimento.",
     category: "Games",
     avatar: "https://unavatar.io/youtube/geleia0"
   },
@@ -684,488 +950,732 @@ const creators = [
     name: "Ciência Todo Dia",
     handle: "@CienciaTodoDia",
     channelId: "UCn9Erjy00mpnWeLnRqhsA1g",
-    description: "Ciência, física, espaço e curiosidades.",
+    description: "Ciência, física, universo e curiosidades.",
     category: "Ciência",
     avatar: "https://unavatar.io/youtube/CienciaTodoDia"
+  },
+
+  {
+    name: "Derponce",
+    handle: "@derponce",
+    channelId: "UCFhZHkxjgParANyn4L6nTrg",
+    description: "Fortnite, desafios, mapas e entretenimento.",
+    category: "Games",
+    avatar: "https://unavatar.io/youtube/derponce"
+  },
+
+  {
+    name: "BlackoutZ",
+    handle: "@blackoutzoficial",
+    channelId: "UCltmTYqOHriItyMXg8f0anQ",
+    description: "Fortnite competitivo, gameplay e entretenimento.",
+    category: "Games",
+    avatar: "https://unavatar.io/youtube/blackoutzoficial"
   }
 
 ];
 
-// ============================================
-// CONFIGURAÇÕES E ESTADO
-// ============================================
 
-// Armazena vídeos já carregados durante a sessão.
-const videoCache = new Map();
+/* ==========================================
+   VARIÁVEIS DO SISTEMA
+========================================== */
 
 let currentCreator = null;
 let currentVideos = [];
+let allVideos = [];
 let currentSearch = "";
-let requestNumber = 0;
+let loadingAll = false;
 
-// RSS público do YouTube, consultado por um proxy.
-function getFeedUrl(channelId) {
-  return "https://www.youtube.com/feeds/videos.xml?channel_id=" + channelId;
+const CACHE_TIME = 15 * 60 * 1000;
+
+
+/* ==========================================
+   ELEMENTOS
+========================================== */
+
+const homePage = document.getElementById("homePage");
+const channelPage = document.getElementById("channelPage");
+const allVideosPage = document.getElementById("allVideosPage");
+const searchPage = document.getElementById("searchPage");
+
+const creatorsGrid = document.getElementById("creatorsGrid");
+const sidebarCreators = document.getElementById("sidebarCreators");
+
+
+/* ==========================================
+   UTILIDADES
+========================================== */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
 }
 
-function getProxyUrl(channelId) {
-  return "https://api.allorigins.win/raw?url=" +
-    encodeURIComponent(getFeedUrl(channelId));
+function showPage(page) {
+  homePage.classList.add("hidden");
+  channelPage.classList.add("hidden");
+  allVideosPage.classList.add("hidden");
+  searchPage.classList.add("hidden");
+
+  page.classList.remove("hidden");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// ============================================
-// CARREGAR VÍDEOS
-// ============================================
-
-async function fetchVideos(creator, forceRefresh = false) {
-
-  if (!forceRefresh && videoCache.has(creator.channelId)) {
-    return videoCache.get(creator.channelId);
-  }
-
-  const response = await fetch(getProxyUrl(creator.channelId), {
-    cache: forceRefresh ? "no-store" : "default"
-  });
-
-  if (!response.ok) {
-    throw new Error("Não foi possível consultar o feed.");
-  }
-
-  const xmlText = await response.text();
-
-  const parser = new DOMParser();
-  const xml = parser.parseFromString(xmlText, "application/xml");
-
-  if (xml.querySelector("parsererror")) {
-    throw new Error("O feed retornou um formato inválido.");
-  }
-
-  const entries = Array.from(xml.getElementsByTagName("entry"));
-
-  const videos = entries.map(entry => {
-
-    const videoId =
-      entry.getElementsByTagNameNS(
-        "http://www.youtube.com/xml/schemas/2015",
-        "videoId"
-      )[0]?.textContent ||
-      entry.getElementsByTagName("yt:videoId")[0]?.textContent;
-
-    const title =
-      entry.getElementsByTagName("title")[0]?.textContent ||
-      "Vídeo sem título";
-
-    const published =
-      entry.getElementsByTagName("published")[0]?.textContent || "";
-
-    const thumbnail = videoId
-      ? "https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg"
-      : "";
-
-    return {
-      id: videoId,
-      title: title,
-      published: published,
-      thumbnail: thumbnail,
-      url: videoId
-        ? "https://www.youtube.com/watch?v=" + videoId
-        : ""
-    };
-
-  }).filter(video => video.id);
-
-  if (videos.length === 0) {
-    throw new Error("Nenhum vídeo foi encontrado neste feed.");
-  }
-
-  videoCache.set(creator.channelId, videos);
-
-  return videos;
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("open");
 }
 
-// ============================================
-// EXIBIR CRIADORES
-// ============================================
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("open");
+}
 
-function renderCreators() {
+function formatDate(date) {
+  if (!date) return "Data indisponível";
 
-  const query = document.getElementById("search")
-    .value.toLowerCase().trim();
+  const parsed = new Date(date);
 
-  const filtered = creators.filter(c =>
-    c.name.toLowerCase().includes(query) ||
-    c.handle.toLowerCase().includes(query) ||
-    c.category.toLowerCase().includes(query)
+  if (Number.isNaN(parsed.getTime())) {
+    return "Data indisponível";
+  }
+
+  return parsed.toLocaleDateString("pt-BR");
+}
+
+function showLoading(container, message = "Carregando vídeos...") {
+  container.innerHTML = `
+    <div class="message" style="grid-column:1/-1">
+      <div class="spinner"></div>
+      <h3>${escapeHTML(message)}</h3>
+      <p>Aguarde enquanto buscamos os conteúdos.</p>
+    </div>
+  `;
+}
+
+function showError(container, message) {
+  container.innerHTML = `
+    <div class="message" style="grid-column:1/-1">
+      <h3>Não foi possível carregar</h3>
+      <p>${escapeHTML(message)}</p>
+      <p style="margin-top:12px">
+        Tente novamente mais tarde.
+      </p>
+    </div>
+  `;
+}
+
+
+/* ==========================================
+   INICIALIZAÇÃO
+========================================== */
+
+function init() {
+  renderCreators();
+  renderSidebar();
+  goHome();
+}
+
+function renderCreators(filter = "") {
+  const normalized = filter.toLowerCase();
+
+  const filtered = creators.filter(creator =>
+    creator.name.toLowerCase().includes(normalized) ||
+    creator.category.toLowerCase().includes(normalized)
   );
 
-  const grid = document.getElementById("creatorGrid");
-  grid.innerHTML = "";
-
-  if (filtered.length === 0) {
-    grid.innerHTML =
-      '<div class="empty">Nenhum criador encontrado.</div>';
+  if (!filtered.length) {
+    creatorsGrid.innerHTML = `
+      <div class="message" style="grid-column:1/-1">
+        <h3>Nenhum criador encontrado</h3>
+        <p>Tente pesquisar por outro nome.</p>
+      </div>
+    `;
     return;
   }
 
-  filtered.forEach(c => {
+  creatorsGrid.innerHTML = filtered.map(creator => `
+    <article class="creator-card"
+      onclick="openChannel('${creator.channelId}')">
 
-    const card = document.createElement("div");
-    card.className = "creator-card";
+      <div class="creator-top">
+        <img
+          class="creator-avatar"
+          src="${escapeHTML(creator.avatar)}"
+          alt="${escapeHTML(creator.name)}"
+          loading="lazy"
+          onerror="this.src='https://placehold.co/100x100/182235/ffffff?text=?'"
+        >
 
-    card.innerHTML = `
-      <img src="${escapeHTML(c.avatar)}" alt=""
-        onerror="this.style.opacity='.3'">
-      <h3>${escapeHTML(c.name)}</h3>
-      <p>${escapeHTML(c.category)}</p>
-      <button type="button">Explorar vídeos</button>
-    `;
+        <div class="creator-info">
+          <h3>${escapeHTML(creator.name)}</h3>
+          <span>${escapeHTML(creator.category)}</span>
+        </div>
+      </div>
 
-    card.addEventListener("click", () => openChannel(c));
+      <p>${escapeHTML(creator.description)}</p>
 
-    grid.appendChild(card);
+      <div class="creator-footer">
+        <span>${escapeHTML(creator.handle)}</span>
+        <strong>VER CANAL →</strong>
+      </div>
 
-  });
-
+    </article>
+  `).join("");
 }
-
-// ============================================
-// MENU LATERAL
-// ============================================
 
 function renderSidebar() {
+  sidebarCreators.innerHTML = creators.map(creator => `
+    <button class="creator-nav"
+      onclick="openChannel('${creator.channelId}')">
 
-  const menu = document.getElementById("sidebarCreators");
-  menu.innerHTML = "";
+      <img
+        src="${escapeHTML(creator.avatar)}"
+        alt=""
+        onerror="this.src='https://placehold.co/100x100/182235/ffffff?text=?'"
+      >
 
-  creators.forEach(c => {
+      ${escapeHTML(creator.name)}
 
-    const item = document.createElement("div");
-    item.className = "nav";
-
-    item.innerHTML = `
-      <img src="${escapeHTML(c.avatar)}" alt=""
-        onerror="this.style.opacity='.3'">
-      ${escapeHTML(c.name)}
-    `;
-
-    item.addEventListener("click", () => openChannel(c));
-
-    menu.appendChild(item);
-
-  });
-
+    </button>
+  `).join("");
 }
 
-// ============================================
-// ABRIR CANAL
-// ============================================
 
-async function openChannel(creator) {
+/* ==========================================
+   NAVEGAÇÃO
+========================================== */
 
-  currentCreator = creator;
-  currentVideos = [];
+function goHome() {
+  currentCreator = null;
   currentSearch = "";
 
-  requestNumber++;
-  const thisRequest = requestNumber;
+  document.getElementById("searchInput").value = "";
 
-  document.getElementById("homePage").style.display = "none";
-  document.getElementById("channelPage").style.display = "block";
+  showPage(homePage);
+  renderCreators();
+  closeSidebar();
 
-  document.getElementById("channelName").textContent = creator.name;
+  document.querySelectorAll(".nav-button").forEach(button => {
+    button.classList.remove("active");
+  });
 
-  document.getElementById("channelDescription").textContent =
-    creator.description + " • " + creator.handle;
+  document.querySelector(".nav-button").classList.add("active");
+}
 
-  document.getElementById("channelAvatar").src = creator.avatar;
+function showAllVideos() {
+  showPage(allVideosPage);
+  closeSidebar();
 
-  document.getElementById("youtubeChannel").href =
-    "https://www.youtube.com/" + creator.handle;
+  document.querySelectorAll(".nav-button").forEach(button => {
+    button.classList.remove("active");
+  });
 
-  document.getElementById("youtubeVideos").href =
-    "https://www.youtube.com/" + creator.handle + "/videos";
+  const buttons = document.querySelectorAll(".nav-button");
+  if (buttons[1]) buttons[1].classList.add("active");
 
-  document.getElementById("videoPlayer").src = "";
-  document.getElementById("playerSection").style.display = "none";
+  if (allVideos.length) {
+    renderVideos(allVideos, document.getElementById("allVideosGrid"));
+  } else {
+    loadAllVideos();
+  }
+}
 
-  document.getElementById("videoCount").textContent =
-    "Carregando vídeos...";
 
-  document.getElementById("videosGrid").innerHTML =
-    '<div class="status">⏳ Buscando os vídeos de ' +
-    escapeHTML(creator.name) + '...</div>';
+/* ==========================================
+   BUSCAR FEED RSS DO YOUTUBE
+========================================== */
 
-  document.querySelectorAll(".nav").forEach(n =>
-    n.classList.remove("active")
+async function fetchVideos(creator, forceRefresh = false) {
+
+  const cacheKey = "mrbeast_hub_" + creator.channelId;
+
+  if (!forceRefresh) {
+    try {
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        const data = JSON.parse(cached);
+
+        if (Date.now() - data.time < CACHE_TIME) {
+          return data.videos;
+        }
+      }
+    } catch (error) {
+      console.warn("Cache indisponível:", error);
+    }
+  }
+
+  const feedUrl =
+    "https://www.youtube.com/feeds/videos.xml?channel_id=" +
+    encodeURIComponent(creator.channelId);
+
+  const proxyUrl =
+    "https://api.allorigins.win/raw?url=" +
+    encodeURIComponent(feedUrl);
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+
+  try {
+
+    const response = await fetch(proxyUrl, {
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      throw new Error("O serviço de feed não respondeu.");
+    }
+
+    const xmlText = await response.text();
+
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, "text/xml");
+
+    if (xml.querySelector("parsererror")) {
+      throw new Error("Não foi possível interpretar o feed.");
+    }
+
+    const entries = Array.from(xml.getElementsByTagName("entry"));
+
+    const videos = entries.map(entry => {
+
+      const getTag = tag => {
+        const element = entry.getElementsByTagName(tag)[0];
+        return element ? element.textContent : "";
+      };
+
+      const id = getTag("yt:videoId");
+
+      const title = getTag("title");
+      const published = getTag("published");
+
+      const linkElement = Array.from(
+        entry.getElementsByTagName("link")
+      ).find(link => link.getAttribute("rel") === "alternate");
+
+      const url = linkElement
+        ? linkElement.getAttribute("href")
+        : `https://www.youtube.com/watch?v=${id}`;
+
+      return {
+        id,
+        title,
+        published,
+        thumbnail: id
+          ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
+          : "",
+        url,
+        creator
+      };
+
+    }).filter(video => video.id && video.title);
+
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify({
+        time: Date.now(),
+        videos
+      }));
+    } catch (error) {
+      console.warn("Não foi possível salvar o cache.");
+    }
+
+    return videos;
+
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+
+/* ==========================================
+   ABRIR CANAL
+========================================== */
+
+async function openChannel(channelId) {
+
+  currentCreator = creators.find(
+    creator => creator.channelId === channelId
   );
 
-  document.getElementById("homeNav").classList.remove("active");
+  if (!currentCreator) return;
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  closeSidebar();
+
+  showPage(channelPage);
+
+  const creator = currentCreator;
+
+  document.getElementById("channelHeader").innerHTML = `
+    <img
+      src="${escapeHTML(creator.avatar)}"
+      alt="${escapeHTML(creator.name)}"
+      onerror="this.src='https://placehold.co/100x100/182235/ffffff?text=?'"
+    >
+
+    <div>
+      <h1>${escapeHTML(creator.name)}</h1>
+      <p>${escapeHTML(creator.description)}</p>
+      <a href="https://www.youtube.com/${escapeHTML(creator.handle)}"
+         target="_blank" rel="noopener noreferrer">
+        VISITAR CANAL NO YOUTUBE ↗
+      </a>
+    </div>
+  `;
+
+  const container = document.getElementById("channelVideos");
+
+  showLoading(container, "Carregando vídeos de " + creator.name);
 
   try {
 
     const videos = await fetchVideos(creator);
 
-    if (thisRequest !== requestNumber) return;
+    if (currentCreator?.channelId !== channelId) return;
 
     currentVideos = videos;
 
-    document.getElementById("videoCount").textContent =
-      videos.length + " vídeos encontrados no feed";
+    if (!videos.length) {
+      showError(
+        container,
+        "Nenhum vídeo foi encontrado no feed deste canal."
+      );
+      return;
+    }
 
-    renderVideos();
+    renderVideos(videos, container);
 
   } catch (error) {
 
-    if (thisRequest !== requestNumber) return;
+    console.error(error);
 
-    document.getElementById("videoCount").textContent =
-      "Não foi possível carregar os vídeos.";
+    if (currentCreator?.channelId !== channelId) return;
 
-    document.getElementById("videosGrid").innerHTML = `
-      <div class="status error">
-        <h3>Não conseguimos carregar este canal.</h3>
-        <p>${escapeHTML(error.message)}</p>
-        <p>O serviço de consulta pode estar indisponível ou o ID do canal pode estar incorreto.</p>
-        <br>
-        <button class="refresh-button" onclick="refreshVideos()">
-          Tentar novamente
-        </button>
+    showError(
+      container,
+      "O feed deste canal não pôde ser acessado. O serviço externo pode estar indisponível."
+    );
+  }
+}
+
+
+/* ==========================================
+   RENDERIZAR VÍDEOS
+========================================== */
+
+function renderVideos(videos, container) {
+
+  if (!videos.length) {
+    container.innerHTML = `
+      <div class="message" style="grid-column:1/-1">
+        <h3>Nenhum vídeo encontrado</h3>
+        <p>Tente novamente mais tarde.</p>
       </div>
     `;
-
-  }
-
-}
-
-// ============================================
-// FORMATAR DATA
-// ============================================
-
-function formatDate(dateString) {
-
-  if (!dateString) return "Data indisponível";
-
-  const date = new Date(dateString);
-
-  if (isNaN(date.getTime())) return "Data indisponível";
-
-  return date.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric"
-  });
-
-}
-
-// ============================================
-// EXIBIR TODOS OS VÍDEOS
-// ============================================
-
-function renderVideos() {
-
-  const grid = document.getElementById("videosGrid");
-  grid.innerHTML = "";
-
-  const filtered = currentVideos.filter(video =>
-    video.title.toLowerCase().includes(currentSearch)
-  );
-
-  if (filtered.length === 0) {
-
-    grid.innerHTML =
-      '<div class="status">Nenhum vídeo encontrado para essa pesquisa.</div>';
-
     return;
   }
 
-  filtered.forEach(video => {
+  container.innerHTML = videos.map(video => `
 
-    const card = document.createElement("article");
-    card.className = "video-card";
+    <article class="video-card"
+      onclick="playVideo('${video.id}')">
 
-    card.innerHTML = `
-      <div class="video-thumbnail">
+      <div class="thumbnail">
+
         <img
           src="${escapeHTML(video.thumbnail)}"
           alt="${escapeHTML(video.title)}"
           loading="lazy"
-          onerror="this.src='https://placehold.co/640x360/151a25/ffffff?text=Video'">
-        <div class="play-overlay">▶</div>
+          onerror="this.src='https://placehold.co/640x360/182235/ffffff?text=Video'"
+        >
+
+        <div class="play-overlay">
+          <div class="play-icon">▶</div>
+        </div>
+
       </div>
 
-      <h3>${escapeHTML(video.title)}</h3>
-      <p>${escapeHTML(currentCreator.name)} • ${formatDate(video.published)}</p>
-    `;
+      <div class="video-info">
 
-    card.addEventListener("click", () => playVideo(video));
+        <h3>${escapeHTML(video.title)}</h3>
 
-    grid.appendChild(card);
+        <div class="video-meta">
 
-  });
+          <img
+            src="${escapeHTML(video.creator.avatar)}"
+            alt=""
+            onerror="this.src='https://placehold.co/50x50/182235/ffffff?text=?'"
+          >
 
+          <span>${escapeHTML(video.creator.name)}</span>
+          <span>•</span>
+          <span>${formatDate(video.published)}</span>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `).join("");
 }
 
-// ============================================
-// REPRODUZIR VÍDEO
-// ============================================
 
-function playVideo(video) {
+/* ==========================================
+   PLAYER INTEGRADO
+========================================== */
 
-  if (!video.id) return;
+function playVideo(videoId) {
 
-  const player = document.getElementById("videoPlayer");
+  const video = [
+    ...currentVideos,
+    ...allVideos
+  ].find(item => item.id === videoId);
 
-  player.src =
-    "https://www.youtube-nocookie.com/embed/" +
-    encodeURIComponent(video.id) +
-    "?autoplay=1&rel=0";
+  if (!videoId) return;
 
-  document.getElementById("playerTitle").textContent = video.title;
+  const title = video
+    ? video.title
+    : "Assistindo vídeo";
 
-  document.getElementById("playerSection").style.display = "block";
+  const creator = video
+    ? video.creator
+    : currentCreator;
 
-  document.getElementById("playerSection").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  const container = document.getElementById("channelVideos");
 
+  showPage(channelPage);
+
+  document.getElementById("channelHeader").innerHTML = `
+    <div>
+      <h1>▶ Assistindo agora</h1>
+      <p>O vídeo está sendo reproduzido dentro do MRBEAST HUB.</p>
+      <button class="section-link"
+        style="margin-top:12px"
+        onclick="goHome()">
+        ← Voltar ao início
+      </button>
+    </div>
+  `;
+
+  container.innerHTML = `
+    <div style="grid-column:1/-1">
+
+      <div class="player-section">
+
+        <div class="player-container">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0"
+            title="${escapeHTML(title)}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <div class="player-title">
+          <h2>${escapeHTML(title)}</h2>
+          <p style="color:#8994a7;font-size:11px;margin-top:8px">
+            ${creator ? escapeHTML(creator.name) : "MRBEAST HUB"}
+          </p>
+          <a
+            href="https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-block;color:#76a4ff;font-size:11px;margin-top:12px;text-decoration:none">
+            Abrir no YouTube ↗
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// ============================================
-// ATUALIZAR VÍDEOS
-// ============================================
+
+/* ==========================================
+   ATUALIZAR CANAL
+========================================== */
 
 async function refreshVideos() {
 
   if (!currentCreator) return;
 
   const creator = currentCreator;
+  const container = document.getElementById("channelVideos");
 
-  requestNumber++;
-  const thisRequest = requestNumber;
-
-  videoCache.delete(creator.channelId);
-
-  document.getElementById("videoPlayer").src = "";
-  document.getElementById("playerSection").style.display = "none";
-
-  document.getElementById("videoCount").textContent =
-    "Atualizando vídeos...";
-
-  document.getElementById("videosGrid").innerHTML =
-    '<div class="status">⏳ Atualizando o catálogo...</div>';
+  showLoading(container, "Atualizando vídeos...");
 
   try {
 
     const videos = await fetchVideos(creator, true);
 
-    if (thisRequest !== requestNumber) return;
+    if (currentCreator?.channelId !== creator.channelId) return;
 
     currentVideos = videos;
 
-    document.getElementById("videoCount").textContent =
-      videos.length + " vídeos encontrados no feed";
-
-    renderVideos();
+    renderVideos(videos, container);
 
   } catch (error) {
 
-    if (thisRequest !== requestNumber) return;
-
-    document.getElementById("videoCount").textContent =
-      "Falha na atualização.";
-
-    document.getElementById("videosGrid").innerHTML = `
-      <div class="status error">
-        ${escapeHTML(error.message)}
-        <br><br>
-        <button class="refresh-button" onclick="refreshVideos()">
-          Tentar novamente
-        </button>
-      </div>
-    `;
+    showError(container, "Não foi possível atualizar os vídeos.");
 
   }
-
 }
 
-// ============================================
-// PESQUISA
-// ============================================
 
-function handleSearch() {
+/* ==========================================
+   CARREGAR TODOS OS VÍDEOS
+========================================== */
 
-  if (currentCreator) {
+async function loadAllVideos(forceRefresh = false) {
 
-    currentSearch = document.getElementById("search")
-      .value.toLowerCase().trim();
+  if (loadingAll) return;
 
-    renderVideos();
+  loadingAll = true;
 
-  } else {
+  const container = document.getElementById("allVideosGrid");
 
-    renderCreators();
+  showLoading(container, "Buscando vídeos de todos os canais...");
+
+  try {
+
+    const results = await Promise.allSettled(
+      creators.map(creator => fetchVideos(creator, forceRefresh))
+    );
+
+    allVideos = [];
+
+    results.forEach((result, index) => {
+
+      if (result.status === "fulfilled") {
+        allVideos.push(...result.value);
+      } else {
+        console.warn(
+          "Falha ao carregar:",
+          creators[index].name,
+          result.reason
+        );
+      }
+
+    });
+
+    allVideos.sort((a, b) =>
+      new Date(b.published) - new Date(a.published)
+    );
+
+    if (!allVideos.length) {
+      showError(
+        container,
+        "Não foi possível carregar vídeos dos canais. Tente novamente."
+      );
+      return;
+    }
+
+    renderVideos(allVideos, container);
+
+  } catch (error) {
+
+    showError(container, "Ocorreu um erro ao buscar os vídeos.");
+
+  } finally {
+
+    loadingAll = false;
 
   }
-
 }
 
-// ============================================
-// VOLTAR PARA INÍCIO
-// ============================================
 
-function goHome() {
+/* ==========================================
+   BUSCA
+========================================== */
 
-  requestNumber++;
+async function handleSearch(event) {
 
-  currentCreator = null;
-  currentVideos = [];
-  currentSearch = "";
+  event.preventDefault();
 
-  document.getElementById("channelPage").style.display = "none";
-  document.getElementById("homePage").style.display = "block";
+  const query = document
+    .getElementById("searchInput")
+    .value.trim();
 
-  document.getElementById("videoPlayer").src = "";
-  document.getElementById("playerSection").style.display = "none";
+  if (!query) {
+    goHome();
+    return;
+  }
 
-  document.getElementById("search").value = "";
+  currentSearch = query;
 
-  renderCreators();
+  const normalized = query.toLowerCase();
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
-  document.querySelectorAll(".nav").forEach(n =>
-    n.classList.remove("active")
+  const creatorMatches = creators.filter(creator =>
+    creator.name.toLowerCase().includes(normalized) ||
+    creator.handle.toLowerCase().includes(normalized) ||
+    creator.category.toLowerCase().includes(normalized)
   );
 
-  document.getElementById("homeNav").classList.add("active");
+  if (creatorMatches.length) {
 
+    showPage(homePage);
+    renderCreators(query);
+
+    document.querySelector(".hero").classList.add("hidden");
+
+    document.querySelector(".section-header h2").textContent =
+      "Criadores encontrados";
+
+    closeSidebar();
+    return;
+  }
+
+  showPage(searchPage);
+
+  const resultsContainer = document.getElementById("searchResults");
+
+  document.getElementById("searchTitle").textContent =
+    `Resultados para "${query}"`;
+
+  document.getElementById("searchDescription").textContent =
+    "Pesquisando nos vídeos dos seus canais.";
+
+  showLoading(resultsContainer, "Pesquisando em todos os canais...");
+
+  closeSidebar();
+
+  try {
+
+    if (!allVideos.length) {
+      await loadAllVideos();
+    }
+
+    const results = allVideos.filter(video =>
+      video.title.toLowerCase().includes(normalized) ||
+      video.creator.name.toLowerCase().includes(normalized)
+    );
+
+    document.getElementById("searchDescription").textContent =
+      `${results.length} resultado(s) encontrado(s).`;
+
+    renderVideos(results, resultsContainer);
+
+  } catch (error) {
+
+    showError(resultsContainer, "Não foi possível realizar a pesquisa.");
+
+  }
 }
 
-// ============================================
-// PROTEÇÃO DE TEXTO
-// ============================================
 
-function escapeHTML(value) {
+/* ==========================================
+   INICIAR SITE
+========================================== */
 
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-
-}
-
-// ============================================
-// INICIALIZAÇÃO
-// ============================================
-
-renderCreators();
-renderSidebar();
+init();
 
 </script>
 
