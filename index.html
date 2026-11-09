@@ -4,1371 +4,1428 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MRBEAST HUB</title>
+<meta name="theme-color" content="#0b0d12">
+<title>MRBEAST HUB — Seus criadores favoritos</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+  --bg:#0b0d12;
+  --panel:#10141e;
+  --card:#151b28;
+  --border:#252e40;
+  --blue:#3478ff;
+  --muted:#929db0;
+  --white:#fff;
 }
 
-:root {
-    --bg: #080b12;
-    --panel: #101522;
-    --panel2: #151d2d;
-    --blue: #247bff;
-    --text: #f4f7ff;
-    --muted: #929db2;
-    --border: #202a3d;
-}
+* { box-sizing:border-box; margin:0; padding:0; }
 
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
+  background:var(--bg);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
 }
 
-button, input {
-    font: inherit;
-}
+button,input { font:inherit; }
+button { cursor:pointer; }
 
-button {
-    cursor: pointer;
-}
-
-.header {
-    height: 72px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    background: rgba(8,11,18,.94);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    padding: 0 28px;
+header {
+  height:72px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  padding:0 25px;
+  background:rgba(16,20,30,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(15px);
 }
 
 .logo {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -1px;
-    white-space: nowrap;
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:-1px;
+  white-space:nowrap;
 }
 
-.logo span {
-    color: var(--blue);
-}
+.logo span { color:var(--blue); }
 
 .search {
-    flex: 1;
-    max-width: 650px;
-    margin: auto;
-    display: flex;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
+  display:flex;
+  width:min(480px,50%);
 }
 
 .search input {
-    width: 100%;
-    padding: 14px 17px;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    color: white;
+  width:100%;
+  min-width:0;
+  padding:13px 18px;
+  color:white;
+  background:#1b2230;
+  border:1px solid #30394b;
+  border-radius:25px 0 0 25px;
+  outline:none;
 }
 
+.search input:focus { border-color:var(--blue); }
+
 .search button {
-    border: 0;
-    padding: 0 20px;
-    background: var(--blue);
-    color: white;
-    font-weight: bold;
+  padding:0 19px;
+  color:white;
+  background:var(--blue);
+  border:0;
+  border-radius:0 25px 25px 0;
+}
+
+.profile {
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--blue);
+  font-weight:bold;
 }
 
 .layout {
-    display: flex;
-    padding-top: 72px;
+  display:flex;
+  min-height:calc(100vh - 72px);
 }
 
-.sidebar {
-    width: 235px;
-    position: fixed;
-    top: 72px;
-    bottom: 0;
-    left: 0;
-    background: #0c111c;
-    border-right: 1px solid var(--border);
-    padding: 24px 14px;
-    overflow-y: auto;
+aside {
+  width:225px;
+  flex-shrink:0;
+  padding:22px 13px;
+  background:var(--panel);
+  border-right:1px solid var(--border);
 }
 
-.side-title {
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    margin: 20px 12px 12px;
+.nav-title {
+  padding:12px;
+  color:#718098;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
 }
 
-.nav-btn {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    width: 100%;
-    padding: 13px;
-    border: 0;
-    border-radius: 9px;
-    background: transparent;
-    color: #b8c2d4;
-    text-align: left;
-    margin-bottom: 4px;
-    transition: .2s;
+.nav {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  margin-bottom:5px;
+  color:#c6cfdd;
+  border-radius:9px;
+  cursor:pointer;
+  font-size:14px;
 }
 
-.nav-btn:hover,
-.nav-btn.active {
-    background: #17243b;
-    color: white;
+.nav:hover,.nav.active {
+  color:white;
+  background:#252f42;
 }
 
-.nav-btn.active {
-    border-left: 3px solid var(--blue);
+.nav img {
+  width:29px;
+  height:29px;
+  border-radius:50%;
+  object-fit:cover;
 }
 
-.creator-mini {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 10px;
-    width: 100%;
-    background: transparent;
-    border: 0;
-    color: #c4ccda;
-    text-align: left;
-    border-radius: 8px;
+main {
+  flex:1;
+  min-width:0;
+  padding:28px;
 }
 
-.creator-mini:hover {
-    background: var(--panel2);
-    color: white;
-}
-
-.avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #164b9a, #298cff);
-    display: grid;
-    place-items: center;
-    font-size: 11px;
-    font-weight: bold;
-    flex-shrink: 0;
-}
-
-.main {
-    width: calc(100% - 235px);
-    margin-left: 235px;
-    padding: 30px;
-    min-height: calc(100vh - 72px);
-}
+.page { display:none; }
+.page.active { display:block; }
 
 .hero {
-    min-height: 260px;
-    border-radius: 20px;
-    padding: 35px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background:
-        radial-gradient(circle at 80% 20%, rgba(36,123,255,.35), transparent 35%),
-        linear-gradient(115deg, #101b30, #0d1220 65%, #132b4e);
-    border: 1px solid #20395e;
-    overflow: hidden;
-    position: relative;
-}
-
-.hero::after {
-    content: "HUB";
-    position: absolute;
-    right: 35px;
-    bottom: -30px;
-    font-size: 150px;
-    font-weight: 900;
-    color: rgba(255,255,255,.035);
-    pointer-events: none;
-}
-
-.hero-tag {
-    color: #76adff;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
+  padding:34px;
+  margin-bottom:30px;
+  border:1px solid #28436e;
+  border-radius:18px;
+  background:
+    radial-gradient(ellipse at 90% 10%,#214a88 0%,transparent 45%),
+    linear-gradient(110deg,#152b53,#10131b 75%);
 }
 
 .hero h1 {
-    font-size: clamp(30px, 5vw, 48px);
-    margin-bottom: 12px;
-    max-width: 650px;
+  font-size:31px;
+  margin-bottom:12px;
 }
 
 .hero p {
-    color: #b5c4dc;
-    max-width: 500px;
-    line-height: 1.6;
+  max-width:600px;
+  color:#bdcbe0;
+  line-height:1.7;
 }
 
-.section-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin: 34px 0 18px;
+.hero-label {
+  display:inline-block;
+  padding:7px 11px;
+  margin-bottom:15px;
+  border:1px solid #436ba5;
+  border-radius:20px;
+  color:#bcd4ff;
+  font-size:11px;
 }
 
-.section-head h2 {
-    font-size: 21px;
+.section-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:30px 0 18px;
 }
 
-.section-head span {
-    color: var(--muted);
-    font-size: 13px;
+.section-heading h2 { font-size:21px; }
+
+.small-text {
+  color:var(--muted);
+  font-size:12px;
 }
 
-.creators {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-    gap: 13px;
+.creator-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(195px,1fr));
+  gap:15px;
 }
 
 .creator-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    padding: 18px 12px;
-    text-align: center;
-    transition: .2s;
-    cursor: pointer;
+  padding:18px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  cursor:pointer;
+  transition:.2s;
 }
 
 .creator-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--blue);
-    background: #142039;
+  transform:translateY(-3px);
+  border-color:var(--blue);
 }
 
-.creator-avatar {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    margin: 0 auto 12px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, #124d9f, #348bff);
-    font-size: 22px;
-    font-weight: 900;
-    box-shadow: 0 5px 22px #1764c344;
+.creator-card img {
+  width:62px;
+  height:62px;
+  object-fit:cover;
+  border-radius:50%;
+  background:#252c39;
+  margin-bottom:13px;
 }
 
-.creator-card h3 {
-    font-size: 14px;
-    margin-bottom: 6px;
-}
+.creator-card h3 { font-size:16px; margin-bottom:6px; }
+.creator-card p { color:var(--muted); font-size:12px; }
 
-.creator-card p {
-    color: var(--muted);
-    font-size: 11px;
-}
-
-.filters {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-    margin-bottom: 18px;
-}
-
-.filter {
-    border: 1px solid var(--border);
-    background: var(--panel);
-    color: #c1ccdd;
-    padding: 9px 15px;
-    border-radius: 20px;
-    white-space: nowrap;
-    font-size: 12px;
-}
-
-.filter.active,
-.filter:hover {
-    background: var(--blue);
-    border-color: var(--blue);
-    color: white;
+.creator-card button {
+  width:100%;
+  padding:10px;
+  margin-top:15px;
+  color:white;
+  background:var(--blue);
+  border:0;
+  border-radius:8px;
+  font-weight:bold;
 }
 
 .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 22px 17px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(225px,1fr));
+  gap:23px 16px;
 }
 
 .video-card {
-    min-width: 0;
-    cursor: pointer;
+  min-width:0;
+  cursor:pointer;
 }
 
 .thumbnail {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #141d2c;
-    position: relative;
-    border: 1px solid var(--border);
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  margin-bottom:11px;
+  overflow:hidden;
+  background:#202838;
+  border-radius:11px;
 }
 
 .thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform .3s;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.25s;
 }
 
-.video-card:hover .thumbnail img {
-    transform: scale(1.06);
-}
+.video-card:hover .thumbnail img { transform:scale(1.05); }
 
 .play-icon {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    background: rgba(0,0,0,.1);
-    opacity: 0;
-    transition: .2s;
-    font-size: 40px;
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:white;
+  background:rgba(0,0,0,.35);
+  opacity:0;
+  font-size:40px;
+  transition:.2s;
 }
 
-.video-card:hover .play-icon {
-    opacity: 1;
-}
+.video-card:hover .play-icon { opacity:1; }
 
-.video-info {
-    display: flex;
-    gap: 11px;
-    padding-top: 11px;
-}
-
-.video-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    background: #174b91;
-    display: grid;
-    place-items: center;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.video-title {
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 1.4;
-    margin-bottom: 7px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.video-card h3 {
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:7px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 
 .video-meta {
-    color: var(--muted);
-    font-size: 11px;
-    line-height: 1.6;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-.status {
-    color: var(--muted);
-    font-size: 13px;
-    padding: 25px 0;
+.video-meta img {
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.channel-top {
+  display:flex;
+  align-items:center;
+  gap:17px;
+  margin:15px 0 26px;
+}
+
+.channel-top img {
+  width:78px;
+  height:78px;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+.channel-top h1 {
+  font-size:26px;
+  margin-bottom:8px;
+}
+
+.channel-top p { color:var(--muted); font-size:13px; }
+
+.back {
+  padding:10px 14px;
+  color:white;
+  background:#202838;
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+
+.toolbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:20px 0;
+  flex-wrap:wrap;
+}
+
+.toolbar button,.load-more {
+  padding:10px 15px;
+  color:white;
+  background:#202b40;
+  border:1px solid #35435c;
+  border-radius:8px;
+}
+
+.player-section {
+  display:none;
+  padding:16px;
+  margin:25px 0;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:13px;
+  scroll-margin-top:90px;
+}
+
+.player-section.show { display:block; }
+
+.player-section h2 {
+  font-size:17px;
+  margin-bottom:13px;
+}
+
+.player {
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.player iframe {
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.player-title {
+  margin-top:13px;
+  font-size:15px;
+  line-height:1.5;
+}
+
+.load-container {
+  display:flex;
+  justify-content:center;
+  padding:28px 0;
 }
 
 .load-more {
-    display: block;
-    margin: 30px auto;
-    padding: 12px 24px;
-    border-radius: 9px;
-    border: 1px solid #285da5;
-    background: #142a4a;
-    color: white;
+  background:var(--blue);
+  border:0;
+  min-width:180px;
+  font-weight:bold;
 }
 
-.load-more:hover {
-    background: var(--blue);
+.load-more:disabled {
+  opacity:.5;
+  cursor:wait;
 }
 
-.channel-header {
-    background: linear-gradient(120deg, #122544, #101522);
-    border: 1px solid var(--border);
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    gap: 18px;
+.status {
+  grid-column:1/-1;
+  padding:35px 15px;
+  text-align:center;
+  color:var(--muted);
+  line-height:1.8;
 }
 
-.channel-header .creator-avatar {
-    margin: 0;
-    flex-shrink: 0;
+.status.error { color:#ff9292; }
+
+.status button {
+  padding:10px 15px;
+  margin-top:12px;
+  color:white;
+  background:var(--blue);
+  border:0;
+  border-radius:8px;
 }
 
-.channel-header p {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 7px;
+footer {
+  padding:35px 10px;
+  margin-top:40px;
+  color:#6e7b91;
+  text-align:center;
+  font-size:12px;
+  border-top:1px solid var(--border);
 }
 
-.channel-link {
-    margin-left: auto;
-    color: white;
-    background: var(--blue);
-    text-decoration: none;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    white-space: nowrap;
+@media(max-width:750px) {
+  header { padding:0 12px; gap:10px; }
+  .logo { font-size:16px; }
+  .profile { display:none; }
+  .search { width:55%; }
+  .search input { padding:10px; font-size:12px; }
+  .search button { padding:0 12px; }
+  aside { width:62px; padding:15px 5px; }
+  .nav { justify-content:center; padding:12px 4px; font-size:0; }
+  .nav img { width:34px; height:34px; }
+  .nav-title { display:none; }
+  main { padding:16px 12px; }
+  .hero { padding:23px; }
+  .hero h1 { font-size:24px; }
+  .creator-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .creator-card { padding:13px; }
+  .creator-card img { width:51px; height:51px; }
+  .creator-card h3 { font-size:14px; }
+  .video-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 10px; }
+  .video-card h3 { font-size:12px; }
+  .channel-top h1 { font-size:21px; }
+  .channel-top img { width:62px; height:62px; }
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: rgba(0,0,0,.92);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.modal.open {
-    display: flex;
-}
-
-.player-box {
-    width: min(100%, 1050px);
-    background: #101522;
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-.player-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    gap: 15px;
-}
-
-.player-top h3 {
-    font-size: 14px;
-}
-
-.close-player {
-    background: transparent;
-    color: white;
-    border: 0;
-    font-size: 27px;
-}
-
-.player-frame {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: 0;
-    display: block;
-    background: black;
-}
-
-.empty {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 25px;
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-.hidden {
-    display: none !important;
-}
-
-@media(max-width: 850px) {
-    .sidebar {
-        width: 68px;
-        padding: 18px 8px;
-    }
-
-    .side-title,
-    .nav-btn span,
-    .creator-mini span:last-child {
-        display: none;
-    }
-
-    .nav-btn {
-        justify-content: center;
-        font-size: 19px;
-    }
-
-    .creator-mini {
-        justify-content: center;
-        padding: 8px 0;
-    }
-
-    .main {
-        margin-left: 68px;
-        width: calc(100% - 68px);
-        padding: 20px;
-    }
-
-    .header {
-        padding: 0 14px;
-        gap: 12px;
-    }
-
-    .logo {
-        font-size: 17px;
-    }
-}
-
-@media(max-width: 550px) {
-    .header {
-        height: 62px;
-    }
-
-    .layout {
-        padding-top: 62px;
-    }
-
-    .sidebar {
-        top: 62px;
-    }
-
-    .main {
-        padding: 14px;
-    }
-
-    .hero {
-        padding: 23px;
-        min-height: 220px;
-    }
-
-    .hero::after {
-        font-size: 90px;
-    }
-
-    .video-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 17px 10px;
-    }
-
-    .video-title {
-        font-size: 12px;
-    }
-
-    .video-meta {
-        font-size: 10px;
-    }
-
-    .video-avatar {
-        width: 28px;
-        height: 28px;
-    }
-
-    .creators {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-    }
-
-    .creator-card {
-        padding: 13px 5px;
-    }
-
-    .creator-avatar {
-        width: 48px;
-        height: 48px;
-        font-size: 16px;
-    }
-
-    .creator-card h3 {
-        font-size: 11px;
-    }
-
-    .creator-card p {
-        font-size: 9px;
-    }
-
-    .channel-header {
-        flex-wrap: wrap;
-    }
-
-    .channel-link {
-        margin-left: 0;
-    }
-
-    .search input {
-        padding: 11px;
-        min-width: 0;
-    }
-
-    .search button {
-        padding: 0 12px;
-    }
+@media(max-width:380px) {
+  .logo { font-size:13px; }
+  .section-heading h2 { font-size:17px; }
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-    <div class="logo">MRBEAST <span>HUB</span></div>
+<header>
+  <div class="logo">MRBEAST <span>HUB</span></div>
 
-    <div class="search">
-        <input id="searchInput" type="text"
-               placeholder="Pesquisar vídeos ou criadores...">
-        <button id="searchButton">⌕</button>
-    </div>
+  <div class="search">
+    <input id="searchInput" placeholder="Pesquisar criadores ou vídeos...">
+    <button id="searchButton">⌕</button>
+  </div>
+
+  <div class="profile">M</div>
 </header>
 
 <div class="layout">
 
-<aside class="sidebar">
+<aside>
+  <div class="nav-title">NAVEGAÇÃO</div>
+  <div class="nav active" id="homeNav">🏠 Início</div>
+  <div class="nav" id="feedNav">▶ Feed</div>
 
-    <button class="nav-btn active" data-page="home">
-        <span>⌂</span><span>Início</span>
-    </button>
-
-    <button class="nav-btn" data-page="videos">
-        <span>▶</span><span>Vídeos</span>
-    </button>
-
-    <button class="nav-btn" data-page="creators">
-        <span>♙</span><span>Criadores</span>
-    </button>
-
-    <div class="side-title">SEUS CRIADORES</div>
-
-    <div id="sidebarCreators"></div>
-
+  <div class="nav-title">SEUS CRIADORES</div>
+  <div id="sidebarCreators"></div>
 </aside>
 
-<main class="main">
+<main>
 
-    <section id="homePage">
+<!-- INÍCIO -->
 
-        <div class="hero">
-            <div class="hero-tag">SEU UNIVERSO DE VÍDEOS</div>
-            <h1>Todos os seus criadores em um só lugar.</h1>
-            <p>
-                Explore vídeos, descubra criadores e assista
-                diretamente pelo MRBEAST HUB.
-            </p>
-        </div>
+<section class="page active" id="homePage">
 
-        <div class="section-head">
-            <h2>Seus criadores</h2>
-            <span>6 canais</span>
-        </div>
+  <div class="hero">
+    <div class="hero-label">SUA CENTRAL DE VÍDEOS</div>
+    <h1>Bem-vindo ao MRBEAST HUB</h1>
+    <p>
+      Todos os seus criadores favoritos em um único lugar.
+      Descubra vídeos, explore canais e assista sem precisar
+      ficar procurando em diferentes páginas.
+    </p>
+  </div>
 
-        <div class="creators" id="homeCreators"></div>
+  <div class="section-heading">
+    <h2>⭐ Seus criadores</h2>
+    <span class="small-text" id="creatorCount"></span>
+  </div>
 
-        <div class="section-head">
-            <h2>Vídeos recentes</h2>
-            <span id="videoCount">Carregando...</span>
-        </div>
+  <div class="creator-grid" id="creatorGrid"></div>
 
-        <div class="filters" id="filters"></div>
+  <div class="section-heading">
+    <h2>🔥 Vídeos recentes</h2>
+    <span class="small-text">Dos seus canais favoritos</span>
+  </div>
 
-        <div class="video-grid" id="videoGrid"></div>
+  <div class="video-grid" id="homeVideos">
+    <div class="status">
+      Selecione um criador para começar a carregar os vídeos.
+    </div>
+  </div>
 
-        <div class="status" id="status">
-            Buscando vídeos dos seus criadores...
-        </div>
+</section>
 
-        <button class="load-more hidden" id="loadMore">
-            Carregar mais vídeos
-        </button>
+<!-- FEED -->
 
-    </section>
+<section class="page" id="feedPage">
 
-    <section id="channelPage" class="hidden">
-        <div id="channelHeader"></div>
+  <div class="section-heading">
+    <h2>▶ Seu feed</h2>
+    <span class="small-text">Vídeos dos seus criadores</span>
+  </div>
 
-        <div class="section-head">
-            <h2>Vídeos do canal</h2>
-        </div>
+  <div class="video-grid" id="feedVideos">
+    <div class="status">Carregando feed...</div>
+  </div>
 
-        <div class="video-grid" id="channelGrid"></div>
+  <div class="load-container">
+    <button class="load-more" id="feedRefresh">
+      ↻ Atualizar feed
+    </button>
+  </div>
 
-        <div class="status" id="channelStatus"></div>
+</section>
 
-        <button class="load-more hidden" id="channelLoadMore">
-            Carregar mais
-        </button>
-    </section>
+<!-- CANAL -->
+
+<section class="page" id="channelPage">
+
+  <button class="back" id="backButton">← Voltar</button>
+
+  <div class="channel-top">
+    <img id="channelAvatar" src="" alt="">
+    <div>
+      <h1 id="channelName"></h1>
+      <p id="channelDescription"></p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <span class="small-text" id="videoCount">Carregando...</span>
+    <button id="channelRefresh">↻ Atualizar vídeos</button>
+  </div>
+
+  <section class="player-section" id="playerSection">
+    <h2>▶ Assistindo agora</h2>
+    <div class="player">
+      <iframe
+        id="videoPlayer"
+        src=""
+        title="Player de vídeo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="player-title" id="playerTitle"></div>
+  </section>
+
+  <div class="section-heading">
+    <h2>Todos os vídeos</h2>
+  </div>
+
+  <div class="video-grid" id="channelVideos"></div>
+
+  <div class="load-container">
+    <button class="load-more" id="loadMore">
+      Carregar mais vídeos
+    </button>
+  </div>
+
+  <div class="channel-actions">
+    <a id="youtubeChannel" class="back" target="_blank" rel="noopener">
+      Abrir canal no YouTube
+    </a>
+    <a id="youtubeVideos" class="back" target="_blank" rel="noopener">
+      Ver no YouTube
+    </a>
+  </div>
+
+</section>
+
+<footer>
+  MRBEAST HUB © 2026 — Plataforma independente.
+  Vídeos e direitos pertencem aos respectivos criadores.
+</footer>
 
 </main>
 </div>
 
-<div class="modal" id="playerModal">
-    <div class="player-box">
-        <div class="player-top">
-            <h3 id="playerTitle">Assistindo vídeo</h3>
-            <button class="close-player" id="closePlayer">×</button>
-        </div>
-
-        <iframe
-            id="playerFrame"
-            class="player-frame"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-        </iframe>
-    </div>
-</div>
-
 <script>
-/* ==========================================
-   CONFIGURAÇÃO DOS CRIADORES
-========================================== */
+
+// =====================================================
+// 1. CRIADORES
+// =====================================================
 
 const creators = [
-    {
-        name: "MrBeast",
-        handle: "@MrBeast",
-        id: "UCX6OQ3DkcsbYNE6H8uQQuVA",
-        initials: "MB",
-        category: "Entretenimento"
-    },
-    {
-        name: "Jazzghost",
-        handle: "@jazzghost",
-        id: "UCIXguhHCl8eDTkXpEuiGPUA",
-        initials: "JG",
-        category: "Games"
-    },
-    {
-        name: "Geleia",
-        handle: "@geleia0",
-        id: "UCEfGV5hx2VrXl4jOUnG0MRQ",
-        initials: "GE",
-        category: "Games"
-    },
-    {
-        name: "Ciência Todo Dia",
-        handle: "@CienciaTodoDia",
-        id: "UCn9Erjy00mpnWeLnRqhsA1g",
-        initials: "CT",
-        category: "Ciência"
-    },
-    {
-        name: "Derponce",
-        handle: "@derponce",
-        id: "UCFhZHkxjgParANyn4L6nTrg",
-        initials: "DE",
-        category: "Games"
-    },
-    {
-        name: "BlackoutZ",
-        handle: "@blackoutzoficial",
-        id: "UCltmTYqOHriItyMXg8f0anQ",
-        initials: "BZ",
-        category: "Games"
-    }
+  {
+    name:"MrBeast",
+    handle:"@MrBeast",
+    channelId:"UCX6OQ3DkcsbYNE6H8uQQuVA",
+    category:"Entretenimento",
+    description:"Desafios gigantes e experiências.",
+    avatar:"https://unavatar.io/youtube/MrBeast"
+  },
+  {
+    name:"Jazzghost",
+    handle:"@jazzghost",
+    channelId:"UCIXguhHCl8eDTkXpEuiGPUA",
+    category:"Games",
+    description:"Minecraft, games e aventuras.",
+    avatar:"https://unavatar.io/youtube/jazzghost"
+  },
+  {
+    name:"Geleia",
+    handle:"@geleia0",
+    channelId:"UCEfGV5hx2VrXl4jOUnG0MRQ",
+    category:"Games",
+    description:"Minecraft e desafios.",
+    avatar:"https://unavatar.io/youtube/geleia0"
+  },
+  {
+    name:"Ciência Todo Dia",
+    handle:"@CienciaTodoDia",
+    channelId:"UCn9Erjy00mpnWeLnRqhsA1g",
+    category:"Ciência",
+    description:"Física, espaço e curiosidades.",
+    avatar:"https://unavatar.io/youtube/CienciaTodoDia"
+  }
 ];
 
-/* ==========================================
-   INSTÂNCIAS PÚBLICAS
-========================================== */
+// =====================================================
+// 2. INSTÂNCIAS PÚBLICAS
+// =====================================================
+
+// Lista baseada na documentação oficial do Invidious.
+// Instâncias públicas podem ficar indisponíveis.
 
 const instances = [
-    "https://inv.nadeko.net",
-    "https://invidious.nerdvpn.de",
-    "https://invidious.tiekoetter.com",
-    "https://yt.chocolatemoo53.com"
+  "https://inv.nadeko.net",
+  "https://invidious.nerdvpn.de",
+  "https://yt.chocolatemoo53.com",
+  "https://invidious.tiekoetter.com"
 ];
 
-/* ==========================================
-   ESTADO DO SITE
-========================================== */
+// =====================================================
+// 3. ESTADO DO SITE
+// =====================================================
 
-let allVideos = [];
-let currentCreator = null;
-let currentFilter = "Todos";
-let homePage = 1;
-let channelPageNumber = 1;
-let currentChannelVideos = [];
-let currentInstanceIndex = 0;
-let loading = false;
+const state = {
+  page:"home",
+  creator:null,
+  videos:[],
+  continuation:null,
+  loading:false,
+  request:0,
+  feed:[],
+  search:""
+};
 
-const videoGrid = document.getElementById("videoGrid");
-const statusText = document.getElementById("status");
-const searchInput = document.getElementById("searchInput");
+const cache = new Map();
 
-/* ==========================================
-   ELEMENTOS DOS CRIADORES
-========================================== */
+const $ = id => document.getElementById(id);
+
+// =====================================================
+// 4. NAVEGAÇÃO
+// =====================================================
+
+function showPage(name) {
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  $(name + "Page").classList.add("active");
+
+  state.page = name;
+
+  window.scrollTo({top:0,behavior:"smooth"});
+
+  $("homeNav").classList.toggle("active",name==="home");
+  $("feedNav").classList.toggle("active",name==="feed");
+
+}
+
+function goHome() {
+
+  state.request++;
+  state.creator = null;
+  state.videos = [];
+  state.search = "";
+
+  $("searchInput").value = "";
+
+  $("videoPlayer").src = "";
+  $("playerSection").classList.remove("show");
+
+  showPage("home");
+
+}
+
+$("homeNav").addEventListener("click",goHome);
+
+$("backButton").addEventListener("click",goHome);
+
+// =====================================================
+// 5. CARDS DOS CRIADORES
+// =====================================================
 
 function renderCreators() {
-    const home = document.getElementById("homeCreators");
-    const sidebar = document.getElementById("sidebarCreators");
 
-    home.innerHTML = "";
-    sidebar.innerHTML = "";
+  const query = $("searchInput").value.toLowerCase().trim();
 
-    creators.forEach(creator => {
+  const filtered = creators.filter(creator =>
+    (creator.name + creator.handle + creator.category)
+      .toLowerCase().includes(query)
+  );
 
-        const card = document.createElement("div");
-        card.className = "creator-card";
+  $("creatorCount").textContent =
+    creators.length + " criadores";
 
-        card.innerHTML = `
-            <div class="creator-avatar">${creator.initials}</div>
-            <h3>${creator.name}</h3>
-            <p>${creator.category}</p>
-        `;
+  $("creatorGrid").innerHTML = "";
 
-        card.addEventListener("click", () => openChannel(creator));
-        home.appendChild(card);
+  if (!filtered.length) {
+    $("creatorGrid").innerHTML =
+      '<div class="status">Nenhum criador encontrado.</div>';
+    return;
+  }
 
-        const mini = document.createElement("button");
-        mini.className = "creator-mini";
-
-        mini.innerHTML = `
-            <span class="avatar">${creator.initials}</span>
-            <span>${creator.name}</span>
-        `;
-
-        mini.addEventListener("click", () => openChannel(creator));
-        sidebar.appendChild(mini);
-    });
-}
-
-/* ==========================================
-   BUSCAR VÍDEOS SEM API KEY
-========================================== */
-
-async function fetchWithTimeout(url, timeout = 9000) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeout);
-
-    try {
-        const response = await fetch(url, {
-            signal: controller.signal
-        });
-
-        if (!response.ok) {
-            throw new Error("Servidor indisponível");
-        }
-
-        return await response.json();
-
-    } finally {
-        clearTimeout(timer);
-    }
-}
-
-async function fetchChannelVideos(creator, page = 1) {
-
-    const errors = [];
-
-    for (let i = 0; i < instances.length; i++) {
-
-        const index = (currentInstanceIndex + i) % instances.length;
-        const instance = instances[index];
-
-        try {
-
-            const url =
-                `${instance}/api/v1/channels/${creator.id}/videos` +
-                `?sort_by=newest&page=${page}`;
-
-            const data = await fetchWithTimeout(url);
-
-            if (!Array.isArray(data)) {
-                throw new Error("Formato de resposta inválido");
-            }
-
-            currentInstanceIndex = index;
-
-            return data.map(video => ({
-                id: video.videoId,
-                title: video.title || "Vídeo sem título",
-                author: creator.name,
-                creator: creator,
-                views: video.viewCount || 0,
-                published: video.publishedText || "",
-                thumbnail:
-                    video.videoThumbnails?.find(
-                        image => image.quality === "high"
-                    )?.url ||
-                    `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`
-            }));
-
-        } catch (error) {
-            errors.push(error.message);
-        }
-    }
-
-    throw new Error("Não foi possível acessar as instâncias públicas.");
-}
-
-/* ==========================================
-   CARREGAMENTO INICIAL
-========================================== */
-
-async function loadHomeFeed() {
-
-    if (loading) return;
-
-    loading = true;
-    statusText.textContent = "Buscando vídeos dos canais...";
-    videoGrid.innerHTML = "";
-
-    const results = await Promise.allSettled(
-        creators.map(creator => fetchChannelVideos(creator, 1))
-    );
-
-    allVideos = [];
-
-    results.forEach((result, index) => {
-
-        if (result.status === "fulfilled") {
-            allVideos.push(...result.value);
-        } else {
-            console.warn(
-                "Falha ao carregar " + creators[index].name,
-                result.reason
-            );
-        }
-    });
-
-    allVideos.sort((a, b) => {
-        return b.views - a.views;
-    });
-
-    loading = false;
-
-    renderFilters();
-    renderHomeFeed();
-
-    const failed = results.filter(
-        result => result.status === "rejected"
-    ).length;
-
-    if (allVideos.length === 0) {
-        statusText.textContent =
-            "Não foi possível carregar os vídeos agora. " +
-            "As instâncias públicas podem estar indisponíveis. " +
-            "Tente novamente mais tarde.";
-    } else if (failed > 0) {
-        statusText.textContent =
-            "Alguns canais não responderam. Os vídeos disponíveis foram carregados.";
-    } else {
-        statusText.textContent =
-            "Todos os canais foram consultados.";
-    }
-}
-
-/* ==========================================
-   FILTROS
-========================================== */
-
-function renderFilters() {
-
-    const container = document.getElementById("filters");
-
-    const categories = [
-        "Todos",
-        ...creators.map(creator => creator.name)
-    ];
-
-    container.innerHTML = "";
-
-    categories.forEach(category => {
-
-        const button = document.createElement("button");
-        button.className =
-            "filter" + (currentFilter === category ? " active" : "");
-
-        button.textContent = category;
-
-        button.addEventListener("click", () => {
-            currentFilter = category;
-            homePage = 1;
-            renderFilters();
-            renderHomeFeed();
-        });
-
-        container.appendChild(button);
-    });
-}
-
-/* ==========================================
-   CARDS DE VÍDEOS
-========================================== */
-
-function createVideoCard(video) {
+  filtered.forEach(creator => {
 
     const card = document.createElement("article");
-    card.className = "video-card";
+    card.className = "creator-card";
 
-    const thumbnail = document.createElement("div");
-    thumbnail.className = "thumbnail";
+    const avatar = document.createElement("img");
+    avatar.src = creator.avatar;
+    avatar.alt = creator.name;
 
-    const image = document.createElement("img");
-    image.src = video.thumbnail;
-    image.alt = video.title;
-    image.loading = "lazy";
+    const name = document.createElement("h3");
+    name.textContent = creator.name;
 
-    image.onerror = () => {
-        image.src =
-            `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
-    };
+    const category = document.createElement("p");
+    category.textContent = creator.category;
 
-    const play = document.createElement("div");
-    play.className = "play-icon";
-    play.textContent = "▶";
+    const button = document.createElement("button");
+    button.textContent = "Explorar vídeos";
 
-    thumbnail.append(image, play);
+    card.append(avatar,name,category,button);
 
-    const info = document.createElement("div");
-    info.className = "video-info";
+    card.addEventListener("click",() => openChannel(creator));
 
-    const avatar = document.createElement("div");
-    avatar.className = "video-avatar";
-    avatar.textContent = video.creator.initials;
+    $("creatorGrid").appendChild(card);
 
-    const details = document.createElement("div");
+  });
 
-    const title = document.createElement("div");
-    title.className = "video-title";
-
-    // Exibe o título recebido do canal.
-    title.textContent = video.title;
-
-    const meta = document.createElement("div");
-    meta.className = "video-meta";
-
-    meta.textContent =
-        `${video.author} · ${formatViews(video.views)} visualizações`;
-
-    details.append(title, meta);
-    info.append(avatar, details);
-
-    card.append(thumbnail, info);
-
-    card.addEventListener("click", () => playVideo(video));
-
-    return card;
 }
 
-function formatViews(number) {
+function renderSidebar() {
 
-    if (!number) return "Visualizações indisponíveis";
+  $("sidebarCreators").innerHTML = "";
 
-    return new Intl.NumberFormat("pt-BR", {
-        notation: "compact",
-        maximumFractionDigits: 1
-    }).format(number);
+  creators.forEach(creator => {
+
+    const item = document.createElement("div");
+    item.className = "nav";
+
+    const avatar = document.createElement("img");
+    avatar.src = creator.avatar;
+    avatar.alt = "";
+
+    const name = document.createElement("span");
+    name.textContent = creator.name;
+
+    item.append(avatar,name);
+
+    item.addEventListener("click",() => openChannel(creator));
+
+    $("sidebarCreators").appendChild(item);
+
+  });
+
 }
 
-/* ==========================================
-   FEED PRINCIPAL
-========================================== */
+// =====================================================
+// 6. REQUISIÇÃO COM TEMPO LIMITE
+// =====================================================
 
-function renderHomeFeed() {
+async function requestJSON(url) {
 
-    videoGrid.innerHTML = "";
+  const controller = new AbortController();
 
-    let filtered = [...allVideos];
+  const timeout = setTimeout(() => {
+    controller.abort();
+  },12000);
 
-    if (currentFilter !== "Todos") {
-        filtered = filtered.filter(
-            video => video.author === currentFilter
-        );
-    }
+  try {
 
-    const search = searchInput.value.trim().toLowerCase();
-
-    if (search) {
-        filtered = filtered.filter(video =>
-            video.title.toLowerCase().includes(search) ||
-            video.author.toLowerCase().includes(search)
-        );
-    }
-
-    const pageSize = 24;
-    const visible = filtered.slice(0, homePage * pageSize);
-
-    visible.forEach(video => {
-        videoGrid.appendChild(createVideoCard(video));
+    const response = await fetch(url,{
+      signal:controller.signal,
+      headers:{Accept:"application/json"}
     });
 
-    document.getElementById("videoCount").textContent =
-        `${filtered.length} vídeos encontrados`;
-
-    document.getElementById("loadMore").classList.toggle(
-        "hidden",
-        visible.length >= filtered.length
-    );
-
-    if (filtered.length === 0 && allVideos.length > 0) {
-        videoGrid.innerHTML =
-            `<div class="empty">Nenhum vídeo encontrado para essa pesquisa.</div>`;
+    if (!response.ok) {
+      throw new Error("Servidor respondeu HTTP " + response.status);
     }
+
+    return await response.json();
+
+  } finally {
+    clearTimeout(timeout);
+  }
+
 }
 
-/* ==========================================
-   PÁGINA DO CANAL
-========================================== */
+// =====================================================
+// 7. RESOLVER CANAL E BUSCAR VÍDEOS
+// =====================================================
 
-async function openChannel(creator) {
+async function resolveChannel(instance,creator) {
 
-    currentCreator = creator;
-    channelPageNumber = 1;
-    currentChannelVideos = [];
+  const url = instance +
+    "/api/v1/resolveurl?url=" +
+    encodeURIComponent("https://www.youtube.com/" + creator.handle);
 
-    document.getElementById("homePage").classList.add("hidden");
-    document.getElementById("channelPage").classList.remove("hidden");
+  try {
 
-    document.querySelectorAll(".nav-btn").forEach(button => {
-        button.classList.remove("active");
-    });
+    const result = await requestJSON(url);
 
-    const header = document.getElementById("channelHeader");
+    const id = result.ucid || result.browseId;
 
-    header.innerHTML = `
-        <div class="channel-header">
-            <div class="creator-avatar">${creator.initials}</div>
-            <div>
-                <h2>${creator.name}</h2>
-                <p>${creator.handle} · ${creator.category}</p>
-            </div>
-            <a class="channel-link"
-               href="https://www.youtube.com/${creator.handle}"
-               target="_blank" rel="noopener">
-                Abrir canal ↗
-            </a>
-        </div>
-    `;
+    if (id && id.startsWith("UC")) {
+      return id;
+    }
 
-    document.getElementById("channelGrid").innerHTML = "";
-    document.getElementById("channelStatus").textContent =
-        "Carregando vídeos...";
+  } catch(error) {
+    console.warn("Não foi possível resolver o handle:",error.message);
+  }
 
-    document.getElementById("channelLoadMore").classList.add("hidden");
+  // Fallback: usa o ID cadastrado.
+  return creator.channelId;
 
-    await refreshChannel();
 }
 
-async function refreshChannel() {
+async function getChannelVideos(creator,continuation=null) {
 
-    const grid = document.getElementById("channelGrid");
-    const status = document.getElementById("channelStatus");
+  let lastError = null;
+
+  for (const instance of instances) {
 
     try {
 
-        const videos = await fetchChannelVideos(
-            currentCreator,
-            channelPageNumber
-        );
+      const channelId = await resolveChannel(instance,creator);
 
-        currentChannelVideos.push(...videos);
+      let url = instance +
+        "/api/v1/channels/" +
+        encodeURIComponent(channelId) +
+        "/videos?sort_by=newest";
 
-        videos.forEach(video => {
-            grid.appendChild(createVideoCard(video));
-        });
+      if (continuation) {
+        url += "&continuation=" + encodeURIComponent(continuation);
+      }
 
-        status.textContent =
-            `${currentChannelVideos.length} vídeos carregados.`;
+      const data = await requestJSON(url);
 
-        document.getElementById("channelLoadMore").classList.toggle(
-            "hidden",
-            videos.length === 0
-        );
+      const entries = Array.isArray(data)
+        ? data
+        : (data.videos || []);
 
-    } catch (error) {
+      const videos = entries.map(video => {
 
-        status.textContent =
-            "Não foi possível carregar este canal agora. " +
-            "Você ainda pode abrir o canal diretamente pelo botão acima.";
+        const id = video.videoId;
 
-        document.getElementById("channelLoadMore").classList.add("hidden");
+        const thumbnailList = video.videoThumbnails || [];
+
+        const thumbnail =
+          thumbnailList.length
+            ? thumbnailList[thumbnailList.length - 1].url
+            : "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+
+        return {
+          id,
+          title:video.title || "Vídeo sem título",
+          author:video.author || creator.name,
+          published:video.published || null,
+          publishedText:video.publishedText || "",
+          thumbnail,
+          url:"https://www.youtube.com/watch?v=" + id
+        };
+
+      }).filter(video => video.id);
+
+      if (!videos.length && !continuation) {
+        throw new Error("Este canal não retornou vídeos.");
+      }
+
+      return {
+        videos,
+        continuation:data.continuation || null,
+        channelId,
+        instance
+      };
+
+    } catch(error) {
+
+      lastError = error;
+
+      console.warn(
+        "Falha na instância " + instance,
+        error
+      );
+
     }
+
+  }
+
+  throw new Error(
+    "Todas as fontes falharam. Último erro: " +
+    (lastError?.message || "desconhecido")
+  );
+
 }
 
-/* ==========================================
-   PLAYER
-========================================== */
+// =====================================================
+// 8. FORMATAÇÃO DE DATA
+// =====================================================
+
+function formatDate(timestamp) {
+
+  if (!timestamp) return "";
+
+  const date = new Date(timestamp * 1000);
+
+  if (isNaN(date.getTime())) return "";
+
+  return date.toLocaleDateString("pt-BR");
+
+}
+
+// =====================================================
+// 9. CRIAR CARD DE VÍDEO
+// =====================================================
+
+function createVideoCard(video,creator) {
+
+  const card = document.createElement("article");
+  card.className = "video-card";
+
+  const thumb = document.createElement("div");
+  thumb.className = "thumbnail";
+
+  const image = document.createElement("img");
+  image.src = video.thumbnail;
+  image.alt = video.title;
+  image.loading = "lazy";
+
+  image.onerror = () => {
+    image.src =
+      "https://placehold.co/640x360/151b28/ffffff?text=Video";
+  };
+
+  const play = document.createElement("div");
+  play.className = "play-icon";
+  play.textContent = "▶";
+
+  thumb.append(image,play);
+
+  const title = document.createElement("h3");
+  title.textContent = video.title;
+
+  const meta = document.createElement("div");
+  meta.className = "video-meta";
+
+  const avatar = document.createElement("img");
+  avatar.src = creator.avatar;
+  avatar.alt = "";
+
+  const details = document.createElement("span");
+  details.textContent =
+    creator.name + (video.published ? " • " + formatDate(video.published) : "");
+
+  meta.append(avatar,details);
+
+  card.append(thumb,title,meta);
+
+  card.addEventListener("click",() => playVideo(video));
+
+  return card;
+
+}
+
+// =====================================================
+// 10. PLAYER
+// =====================================================
 
 function playVideo(video) {
 
-    const modal = document.getElementById("playerModal");
-    const frame = document.getElementById("playerFrame");
+  if (!video.id) return;
 
-    document.getElementById("playerTitle").textContent = video.title;
+  $("videoPlayer").src =
+    "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(video.id) +
+    "?autoplay=1&rel=0";
 
-    frame.src =
-        `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`;
+  $("playerTitle").textContent = video.title;
 
-    modal.classList.add("open");
+  $("playerSection").classList.add("show");
+
+  $("playerSection").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
 }
 
-function closePlayer() {
+// =====================================================
+// 11. ABRIR CANAL
+// =====================================================
 
-    document.getElementById("playerModal").classList.remove("open");
-    document.getElementById("playerFrame").src = "";
-}
+async function openChannel(creator) {
 
-document.getElementById("closePlayer").addEventListener(
-    "click",
-    closePlayer
-);
+  state.request++;
 
-document.getElementById("playerModal").addEventListener(
-    "click",
-    event => {
-        if (event.target.id === "playerModal") {
-            closePlayer();
-        }
+  const requestId = state.request;
+
+  state.creator = creator;
+  state.videos = [];
+  state.continuation = null;
+  state.loading = false;
+  state.search = "";
+
+  $("searchInput").value = "";
+
+  showPage("channel");
+
+  $("channelName").textContent = creator.name;
+  $("channelDescription").textContent =
+    creator.description + " • " + creator.handle;
+
+  $("channelAvatar").src = creator.avatar;
+
+  $("youtubeChannel").href =
+    "https://www.youtube.com/" + creator.handle;
+
+  $("youtubeVideos").href =
+    "https://www.youtube.com/" + creator.handle + "/videos";
+
+  $("videoPlayer").src = "";
+  $("playerSection").classList.remove("show");
+
+  $("videoCount").textContent = "Conectando às fontes...";
+
+  $("channelVideos").innerHTML =
+    '<div class="status">⏳ Procurando vídeos de ' +
+    creator.name + '...</div>';
+
+  try {
+
+    let result = cache.get(creator.channelId);
+
+    if (!result) {
+      result = await getChannelVideos(creator);
+      cache.set(creator.channelId,result);
     }
-);
 
-document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closePlayer();
-});
+    if (requestId !== state.request) return;
 
-/* ==========================================
-   BUSCA
-========================================== */
+    state.videos = result.videos;
+    state.continuation = result.continuation;
+    creator.channelId = result.channelId;
 
-function searchVideos() {
+    renderChannelVideos();
 
-    const home = document.getElementById("homePage");
-    const channel = document.getElementById("channelPage");
+  } catch(error) {
 
-    home.classList.remove("hidden");
-    channel.classList.add("hidden");
+    if (requestId !== state.request) return;
 
-    currentFilter = "Todos";
-    homePage = 1;
+    $("videoCount").textContent = "Falha ao conectar";
 
-    document.querySelectorAll(".nav-btn").forEach(button => {
-        button.classList.toggle(
-            "active",
-            button.dataset.page === "home"
-        );
+    $("channelVideos").innerHTML = "";
+
+    const status = document.createElement("div");
+    status.className = "status error";
+
+    const title = document.createElement("h3");
+    title.textContent = "Não conseguimos carregar este canal.";
+
+    const message = document.createElement("p");
+    message.textContent = error.message;
+
+    const retry = document.createElement("button");
+    retry.textContent = "Tentar novamente";
+    retry.onclick = refreshChannel;
+
+    status.append(title,message,retry);
+    $("channelVideos").appendChild(status);
+
+  }
+
+}
+
+// =====================================================
+// 12. MOSTRAR VÍDEOS DO CANAL
+// =====================================================
+
+function renderChannelVideos() {
+
+  const grid = $("channelVideos");
+  grid.innerHTML = "";
+
+  $("videoCount").textContent =
+    state.videos.length + " vídeos carregados";
+
+  const query = state.search;
+
+  const filtered = state.videos.filter(video =>
+    video.title.toLowerCase().includes(query)
+  );
+
+  if (!filtered.length) {
+
+    grid.innerHTML =
+      '<div class="status">Nenhum vídeo corresponde à pesquisa.</div>';
+
+  } else {
+
+    filtered.forEach(video => {
+      grid.appendChild(createVideoCard(video,state.creator));
     });
 
-    renderFilters();
+  }
+
+  $("loadMore").style.display =
+    state.continuation ? "inline-block" : "none";
+
+}
+
+// =====================================================
+// 13. CARREGAR MAIS VÍDEOS
+// =====================================================
+
+async function loadMoreVideos() {
+
+  if (
+    state.loading ||
+    !state.continuation ||
+    !state.creator
+  ) return;
+
+  state.loading = true;
+
+  const requestId = state.request;
+
+  $("loadMore").disabled = true;
+  $("loadMore").textContent = "Carregando...";
+
+  try {
+
+    const result = await getChannelVideos(
+      state.creator,
+      state.continuation
+    );
+
+    if (requestId !== state.request) return;
+
+    const knownIds = new Set(state.videos.map(v => v.id));
+
+    result.videos.forEach(video => {
+      if (!knownIds.has(video.id)) {
+        state.videos.push(video);
+      }
+    });
+
+    state.continuation = result.continuation;
+
+    renderChannelVideos();
+
+  } catch(error) {
+
+    alert("Não foi possível carregar mais vídeos: " + error.message);
+
+  } finally {
+
+    state.loading = false;
+    $("loadMore").disabled = false;
+    $("loadMore").textContent = "Carregar mais vídeos";
+
+  }
+
+}
+
+// =====================================================
+// 14. ATUALIZAR CANAL
+// =====================================================
+
+async function refreshChannel() {
+
+  if (!state.creator) return;
+
+  const creator = state.creator;
+
+  cache.delete(creator.channelId);
+
+  state.request++;
+  const requestId = state.request;
+
+  state.videos = [];
+  state.continuation = null;
+
+  $("videoPlayer").src = "";
+  $("playerSection").classList.remove("show");
+
+  $("videoCount").textContent = "Atualizando...";
+
+  $("channelVideos").innerHTML =
+    '<div class="status">Atualizando vídeos...</div>';
+
+  try {
+
+    const result = await getChannelVideos(creator);
+
+    if (requestId !== state.request) return;
+
+    state.videos = result.videos;
+    state.continuation = result.continuation;
+
+    cache.set(creator.channelId,result);
+
+    renderChannelVideos();
+
+  } catch(error) {
+
+    if (requestId !== state.request) return;
+
+    $("videoCount").textContent = "Falha na atualização";
+
+    $("channelVideos").innerHTML =
+      '<div class="status error">' +
+      error.message +
+      '<br><br>Verifique a conexão e tente novamente.' +
+      '</div>';
+
+  }
+
+}
+
+// =====================================================
+// 15. FEED GERAL
+// =====================================================
+
+async function loadHomeFeed() {
+
+  const grid = $("homeVideos");
+  const feed = $("feedVideos");
+
+  grid.innerHTML =
+    '<div class="status">Carregando vídeos dos canais...</div>';
+
+  feed.innerHTML =
+    '<div class="status">Carregando seu feed...</div>';
+
+  const results = await Promise.allSettled(
+    creators.map(async creator => {
+
+      const result = await getChannelVideos(creator);
+
+      creator.channelId = result.channelId;
+
+      cache.set(creator.channelId,result);
+
+      return {creator,result};
+
+    })
+  );
+
+  state.feed = [];
+
+  results.forEach(item => {
+
+    if (item.status === "fulfilled") {
+
+      const {creator,result} = item.value;
+
+      result.videos.forEach(video => {
+        state.feed.push({video,creator});
+      });
+
+    } else {
+      console.warn("Um canal não pôde ser carregado:",item.reason);
+    }
+
+  });
+
+  state.feed.sort((a,b) =>
+    (b.video.published || 0) - (a.video.published || 0)
+  );
+
+  renderHomeFeed();
+
+}
+
+function renderHomeFeed() {
+
+  const query = $("searchInput").value.toLowerCase().trim();
+
+  const filtered = state.feed.filter(item =>
+    (item.video.title + item.creator.name)
+      .toLowerCase().includes(query)
+  );
+
+  const home = $("homeVideos");
+  const feed = $("feedVideos");
+
+  home.innerHTML = "";
+  feed.innerHTML = "";
+
+  if (!filtered.length) {
+
+    const message = state.feed.length
+      ? "Nenhum vídeo encontrado."
+      : "Nenhum canal conseguiu fornecer vídeos. Tente novamente.";
+
+    home.innerHTML =
+      '<div class="status">' + message + '</div>';
+
+    feed.innerHTML =
+      '<div class="status">' + message + '</div>';
+
+    return;
+
+  }
+
+  filtered.forEach(item => {
+
+    const card = createVideoCard(item.video,item.creator);
+
+    home.appendChild(card.cloneNode(true));
+
+    // Registra novamente o evento no clone.
+    home.lastElementChild.addEventListener("click",() =>
+      playVideo(item.video)
+    );
+
+    feed.appendChild(createVideoCard(item.video,item.creator));
+
+  });
+
+}
+
+// =====================================================
+// 16. PESQUISA
+// =====================================================
+
+function searchSite() {
+
+  const query = $("searchInput").value.toLowerCase().trim();
+
+  if (state.page === "channel") {
+
+    state.search = query;
+    renderChannelVideos();
+
+  } else if (state.page === "feed") {
+
     renderHomeFeed();
+
+  } else {
+
+    renderCreators();
+    renderHomeFeed();
+
+  }
+
 }
 
-document.getElementById("searchButton").addEventListener(
-    "click",
-    searchVideos
-);
+$("searchInput").addEventListener("input",searchSite);
+$("searchButton").addEventListener("click",searchSite);
 
-searchInput.addEventListener("keydown", event => {
-    if (event.key === "Enter") searchVideos();
+// =====================================================
+// 17. EVENTOS
+// =====================================================
+
+$("feedNav").addEventListener("click",() => {
+
+  showPage("feed");
+
+  if (!state.feed.length) {
+    loadHomeFeed();
+  }
+
 });
 
-searchInput.addEventListener("input", () => {
-    if (!document.getElementById("homePage").classList.contains("hidden")) {
-        homePage = 1;
-        renderHomeFeed();
-    }
-});
+$("feedRefresh").addEventListener("click",loadHomeFeed);
+$("channelRefresh").addEventListener("click",refreshChannel);
+$("loadMore").addEventListener("click",loadMoreVideos);
 
-/* ==========================================
-   NAVEGAÇÃO
-========================================== */
-
-document.querySelectorAll(".nav-btn").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const page = button.dataset.page;
-
-        document.querySelectorAll(".nav-btn").forEach(item => {
-            item.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        document.getElementById("homePage").classList.toggle(
-            "hidden",
-            page === "creators"
-        );
-
-        document.getElementById("channelPage").classList.add("hidden");
-
-        if (page === "home" || page === "videos") {
-            document.getElementById("homePage").classList.remove("hidden");
-
-            if (page === "videos") {
-                currentFilter = "Todos";
-                homePage = 1;
-                renderFilters();
-                renderHomeFeed();
-            }
-        }
-
-        if (page === "creators") {
-            document.getElementById("homePage").classList.remove("hidden");
-            document.getElementById("homeCreators").scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-        }
-    });
-});
-
-/* ==========================================
-   CARREGAR MAIS
-========================================== */
-
-document.getElementById("loadMore").addEventListener(
-    "click",
-    () => {
-        homePage++;
-        renderHomeFeed();
-    }
-);
-
-document.getElementById("channelLoadMore").addEventListener(
-    "click",
-    async () => {
-        channelPageNumber++;
-        await refreshChannel();
-    }
-);
-
-/* ==========================================
-   INICIALIZAÇÃO
-========================================== */
+// =====================================================
+// 18. INICIALIZAÇÃO
+// =====================================================
 
 renderCreators();
-renderFilters();
-loadHomeFeed();
+renderSidebar();
+
+// Carrega o feed inicial automaticamente.
+loadHomeFeed().catch(error => {
+  console.error("Erro no feed inicial:",error);
+});
 
 </script>
+
 </body>
 </html>
